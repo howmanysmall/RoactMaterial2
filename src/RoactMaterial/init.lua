@@ -1,0 +1,25 @@
+return {
+	Button = require(script.Components.Button),
+	Card = require(script.Components.Card),
+	Checkbox = require(script.Components.Checkbox),
+	Icon = require(script.Components.Icon),
+	IconSpritesheets = require(script.Components.Icon.Spritesheets),
+	IndeterminateCircle = require(script.Components.IndeterminateCircle),
+	Ink = require(script.Components.Ink),
+	Menu = require(script.Components.Menu),
+	RadioButton = require(script.Components.RadioButton),
+	RadioGroup = require(script.Components.RadioGroup),
+	Shadow = require(script.Components.Shadow),
+	Slider = require(script.Components.Slider),
+	Switch = require(script.Components.Switch),
+	TextView = require(script.Components.TextView),
+	ThemeProvider = require(script.Components.ThemeProvider),
+	TransparentButton = require(script.Components.TransparentButton),
+
+	Colors = require(script.Colors),
+	Themes = {
+		Base = require(script.Themes.Base),
+		Light = require(script.Themes.Light),
+		Dark = require(script.Themes.Dark),
+	},
+}

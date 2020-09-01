@@ -1,0 +1,6 @@
+[package]
+name = "howmanysmall/RoactMaterial2"
+author = "howmanysmall"
+content_root = "src"
+version = "1.0.0"
+license = "MIT"
