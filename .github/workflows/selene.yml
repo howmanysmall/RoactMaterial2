@@ -15,4 +15,4 @@ jobs:
       run: |
         wget -O selene https://github.com/Kampfkarren/selene/releases/latest/download/selene-linux
         chmod +x ./selene
-        ./selene .
+        ./selene ./src

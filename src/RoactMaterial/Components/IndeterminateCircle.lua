@@ -1,4 +1,3 @@
-local RunService = game:GetService("RunService")
 local Configuration = require(script.Parent.Parent.Configuration)
 local ThemeAccessor = require(script.Parent.Parent.Utility.ThemeAccessor)
 
@@ -64,46 +63,41 @@ function IndeterminateCircle:init()
 	})
 end
 
-local MemoizeIndex = setmetatable({}, {
-	__index = function(self, Index)
-		local Value = {index = Index}
-		self[Index] = Value
-		return Value
+local memoizeIndex = setmetatable({}, {
+	__index = function(self, index)
+		local value = {index = index}
+		self[index] = value
+		return value
 	end;
 })
 
-local MemoizeRotation = setmetatable({}, {
-	__index = function(self, Index)
-		local Value = {rotation = Index}
-		self[Index] = Value
-		return Value
+local memoizeRotation = setmetatable({}, {
+	__index = function(self, index)
+		local value = {rotation = index}
+		self[index] = value
+		return value
 	end;
 })
 
-for Index = 1, 42 do
-	local _ = MemoizeIndex[Index]
+for index = 1, 42 do
+	local _ = memoizeIndex[index]
 end
 
 function IndeterminateCircle:didMount()
 	self.isMounted = true
-	self.promise = Promise.Try(function()
+	coroutine.wrap(function()
 		while self.isMounted do
 			for index = 1, 42 do
-				self:setState(MemoizeIndex[index])
-				Promise.Delay(0.03 / self.props.AnimationSpeed):Await()
+				self:setState(memoizeIndex[index])
+				Promise.delay(0.03 / self.props.AnimationSpeed):await()
 				local newRotation = self.state.rotation + 2
-				self:setState(MemoizeRotation[newRotation > 360 and newRotation - 360 or newRotation])
+				self:setState(memoizeRotation[newRotation > 360 and newRotation - 360 or newRotation])
 			end
 		end
-	end)
+	end)()
 end
 
 function IndeterminateCircle:willUnmount()
-	if self.promise then
-		self.promise:Cancel()
-		self.promise = nil
-	end
-
 	self.isMounted = false
 end
 

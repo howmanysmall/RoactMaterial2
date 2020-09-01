@@ -5,7 +5,25 @@
 
     "ReplicatedStorage": {
       "$className": "ReplicatedStorage",
-      "$path": "src"
+      "RoactMaterial": {
+        "$path": "src/RoactMaterial"
+      },
+
+      "RoactAnimate": {
+        "$path": "src/RoactAnimate"
+      },
+
+      "Roact": {
+        "$path": "modules/roact/src"
+      },
+
+      "Promise": {
+        "$path": "modules/roblox-lua-promise/lib"
+      },
+
+      "t": {
+        "$path": "modules/t/lib"
+      }
     }
   }
 }

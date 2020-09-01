@@ -1,7 +1,8 @@
 local Configuration = {
 	Promise = require(script.Parent.Parent.Promise),
-	RoactAnimate = require(script.Parent.Parent.RoactAnimate),
 	Roact = require(script.Parent.Parent.Roact),
+	RoactAnimate = require(script.Parent.Parent.RoactAnimate),
+	t = require(script.Parent.Parent.t),
 	Warnings = {},
 }
 

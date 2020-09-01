@@ -22,7 +22,7 @@ function RadioButton:init(props)
 	})
 end
 
-function RadioButton:willUpdate(nextProps, nextState)
+function RadioButton:willUpdate(nextProps)
 	local outlineColor = ThemeAccessor.Get(self, "CheckOutlineColor")
 	local newTransparency = 1
 	local newOutlineTransparency = outlineColor.Transparency

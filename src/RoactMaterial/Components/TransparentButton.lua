@@ -18,8 +18,8 @@ local COLOR_TWEEN_INFO = TweenInfo.new(
 	Enum.EasingStyle.Linear
 )
 
-local Button = Roact.PureComponent:extend("MaterialButton")
-Button.defaultProps = {
+local TransparentButton = Roact.PureComponent:extend("MaterialTransparentButton")
+TransparentButton.defaultProps = {
 	Position = UDim2.new(),
 	AnchorPoint = Vector2.new(),
 	Size = UDim2.fromOffset(100, 40),
@@ -28,17 +28,17 @@ Button.defaultProps = {
 	TextLabelSize = UDim2.fromScale(0.85, 0.85),
 }
 
-function Button:init(props)
+function TransparentButton:init(props)
 	self:setState({
 		_pressed = false,
 		_pressPoint = UDim2.new(),
 		Elevation = 2,
 		_mouseOver = false,
-		_bgColor = RoactAnimate.Value.new(self.props.BackgroundColor3 or (self.props.Flat and ThemeAccessor.Get(self, "FlatButtonColor", Color3.new(1, 1, 1)) or ThemeAccessor.Get(self, "ButtonColor", Color3.new(1, 1, 1)))),
+		_bgColor = RoactAnimate.Value.new(props.BackgroundColor3 or (props.Flat and ThemeAccessor.Get(self, "FlatButtonColor", Color3.new(1, 1, 1)) or ThemeAccessor.Get(self, "ButtonColor", Color3.new(1, 1, 1)))),
 	})
 end
 
-function Button:willUpdate(nextProps, nextState)
+function TransparentButton:willUpdate(_, nextState)
 	local goalColor
 
 	if nextState._pressed then
@@ -73,7 +73,7 @@ local function _scheduleHitTest(self, rbx)
 	end)()
 end
 
-function Button:render()
+function TransparentButton:render()
 	local function hitTester(rbx)
 		_scheduleHitTest(self, rbx)
 	end
@@ -125,7 +125,7 @@ function Button:render()
 				end
 			end,
 
-			[Roact.Event.InputEnded] = function(rbx, input)
+			[Roact.Event.InputEnded] = function(_, input)
 				if input.UserInputType == Enum.UserInputType.MouseMovement then
 					self:setState({
 						Elevation = 2,
@@ -161,4 +161,4 @@ function Button:render()
 	})
 end
 
-return Button
+return TransparentButton

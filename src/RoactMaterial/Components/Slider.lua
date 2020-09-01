@@ -30,107 +30,167 @@ Slider.defaultProps = {
 
 function Slider:init(props)
 	self:setState({
-		BackFrameSize = RoactAnimate.Value.new(UDim2.fromScale(0, 1)),
-		SliderPosition = RoactAnimate.Value.new(UDim2.fromScale(0, 0.5)),
-		SliderSize = RoactAnimate.Value.new(UDim2.fromOffset(12, 12)),
-		MouseOnSize = RoactAnimate.Value.new(UDim2.new()),
-		MouseDownSize = RoactAnimate.Value.new(UDim2.new()),
-		ValueLabelSize = RoactAnimate.Value.new(UDim2.new()),
+		backFrameSize = RoactAnimate.Value.new(UDim2.fromScale(0, 1)),
+		sliderPosition = RoactAnimate.Value.new(UDim2.fromScale(0, 0.5)),
+		sliderSize = RoactAnimate.Value.new(UDim2.fromOffset(12, 12)),
+		mouseOnSize = RoactAnimate.Value.new(UDim2.new()),
+		mouseDownSize = RoactAnimate.Value.new(UDim2.new()),
+		valueLabelSize = RoactAnimate.Value.new(UDim2.new()),
 
-		MouseOver = false,
-		MouseDown = false,
+		mouseOver = false,
+		mouseDown = false,
 
-		CurrentValue = props.Value,
-		GridVisible = props.Grid,
+		currentValue = props.Value,
+		gridVisible = props.Grid,
 	})
 
-	self.SliderRef = Roact.createRef()
+	self.sliderRef = Roact.createRef()
 end
 
-function Slider:willUpdate(NextProps, NextState)
-	local Animations = {}
-	local Length = 0
+-- function Slider:willUpdate(NextProps, NextState)
+-- 	local animations = {}
+-- 	local length = 0
 
-	if self.state.MouseOver ~= NextState.MouseOver then
-		Length = 1
-		if NextState.MouseOver then
-			local Sequence = table.create(2)
-			Sequence[1] = RoactAnimate.Prepare(self.state.MouseOnSize, UDim2.new())
-			Sequence[2] = RoactAnimate(self.state.MouseOnSize, TweenInfo.new(0.12), UDim2.fromScale(3, 3))
-			Animations[Length] = RoactAnimate.Sequence(Sequence)
+-- 	if self.state.mouseOver ~= NextState.mouseOver then
+-- 		length = 1
+-- 		if NextState.mouseOver then
+-- 			local Sequence = table.create(2)
+-- 			Sequence[1] = RoactAnimate.Prepare(self.state.mouseOnSize, UDim2.new())
+-- 			Sequence[2] = RoactAnimate(self.state.mouseOnSize, TweenInfo.new(0.12), UDim2.fromScale(3, 3))
+-- 			animations[length] = RoactAnimate.Sequence(Sequence)
+-- 		else
+-- 			local Sequence = table.create(2)
+-- 			Sequence[1] = RoactAnimate.Prepare(self.state.mouseOnSize, UDim2.fromScale(3, 3))
+-- 			Sequence[2] = RoactAnimate(self.state.mouseOnSize, TweenInfo.new(0.12), UDim2.new())
+-- 			animations[length] = RoactAnimate.Sequence(Sequence)
+-- 		end
+-- 	end
+
+-- 	if self.state.mouseDown ~= NextState.mouseDown then
+-- 		length += 1
+-- 		if NextState.mouseDown then
+-- 			if NextProps.ValueLabel then
+-- 				local Sequence = table.create(6)
+-- 				Sequence[1] = RoactAnimate.Prepare(self.state.mouseDownSize, UDim2.new())
+-- 				Sequence[2] = RoactAnimate.Prepare(self.state.sliderSize, UDim2.fromOffset(12, 12))
+-- 				Sequence[3] = RoactAnimate.Prepare(self.state.valueLabelSize, UDim2.new())
+-- 				Sequence[4] = RoactAnimate(self.state.mouseDownSize, TweenInfo.new(0.12), UDim2.fromScale(3, 3))
+-- 				Sequence[5] = RoactAnimate(self.state.sliderSize, TweenInfo.new(0.2, Enum.EasingStyle.Quad), UDim2.fromOffset(14, 14))
+-- 				Sequence[6] = RoactAnimate(self.state.valueLabelSize, TweenInfo.new(0.12), UDim2.fromOffset(28, 40))
+-- 				animations[length] = RoactAnimate.Parallel(Sequence)
+-- 			else
+-- 				local Sequence = table.create(4)
+-- 				Sequence[1] = RoactAnimate.Prepare(self.state.mouseDownSize, UDim2.new())
+-- 				Sequence[2] = RoactAnimate.Prepare(self.state.sliderSize, UDim2.fromOffset(12, 12))
+-- 				Sequence[3] = RoactAnimate(self.state.mouseDownSize, TweenInfo.new(0.12), UDim2.fromScale(3, 3))
+-- 				Sequence[4] = RoactAnimate(self.state.sliderSize, TweenInfo.new(0.2, Enum.EasingStyle.Quad), UDim2.fromOffset(14, 14))
+-- 				animations[Length] = RoactAnimate.Parallel(Sequence)
+-- 			end
+-- 		else
+-- 			if NextProps.ValueLabel then
+-- 				local Sequence = table.create(6)
+-- 				Sequence[1] = RoactAnimate.Prepare(self.state.mouseDownSize, UDim2.new())
+-- 				Sequence[2] = RoactAnimate.Prepare(self.state.sliderSize, UDim2.fromOffset(12, 12))
+-- 				Sequence[3] = RoactAnimate.Prepare(self.state.valueLabelSize, UDim2.fromOffset(28, 40))
+-- 				Sequence[4] = RoactAnimate(self.state.mouseDownSize, TweenInfo.new(0.12), UDim2.fromScale(3, 3))
+-- 				Sequence[5] = RoactAnimate(self.state.sliderSize, TweenInfo.new(0.2, Enum.EasingStyle.Quad), UDim2.fromOffset(14, 14))
+-- 				Sequence[6] = RoactAnimate(self.state.valueLabelSize, TweenInfo.new(0.12), UDim2.new())
+-- 				animations[length] = RoactAnimate.Parallel(Sequence)
+-- 			else
+-- 				local Sequence = table.create(4)
+-- 				Sequence[1] = RoactAnimate.Prepare(self.state.mouseDownSize, UDim2.fromScale(3, 3))
+-- 				Sequence[2] = RoactAnimate.Prepare(self.state.sliderSize, UDim2.fromOffset(14, 14))
+-- 				Sequence[3] = RoactAnimate(self.state.mouseDownSize, TweenInfo.new(0.12), UDim2.new())
+-- 				Sequence[4] = RoactAnimate(self.state.sliderSize, TweenInfo.new(0.2, Enum.EasingStyle.Quad), UDim2.fromOffset(12, 12))
+-- 				animations[length] = RoactAnimate.Parallel(Sequence)
+-- 			end
+-- 		end
+-- 	end
+
+-- 	if self.state.currentValue ~= NextState.currentValue then
+-- 		length += 1
+-- 		local currentValue = NextState.currentValue
+
+-- 		local Sequence = table.create(2)
+-- 		Sequence[1] = RoactAnimate(self.state.backFrameSize, TweenInfo.new(0.1, Enum.EasingStyle.Quad), UDim2.fromScale(currentValue / NextProps.Max, 1))
+-- 		Sequence[2] = RoactAnimate(self.state.sliderPosition, TweenInfo.new(0.1, Enum.EasingStyle.Quad), UDim2.fromScale(currentValue / NextProps.Max, 0.5))
+-- 		animations[length] = RoactAnimate.Parallel(Sequence)
+-- 	end
+
+-- 	RoactAnimate.Parallel(animations):Start()
+-- end
+
+function Slider:willUpdate(nextProps, nextState)
+	local animations = {}
+	local length = 0
+
+	if self.state.mouseOver ~= nextState.mouseOver then
+		length = 1
+		if nextState.mouseOver then
+			local sequence = table.create(2)
+			sequence[1] = RoactAnimate.Prepare(self.state.mouseOnSize, UDim2.new())
+			sequence[2] = RoactAnimate(self.state.mouseOnSize, TweenInfo.new(0.12), UDim2.fromScale(3, 3))
+			animations[length] = RoactAnimate.Sequence(sequence)
 		else
-			local Sequence = table.create(2)
-			Sequence[1] = RoactAnimate.Prepare(self.state.MouseOnSize, UDim2.fromScale(3, 3))
-			Sequence[2] = RoactAnimate(self.state.MouseOnSize, TweenInfo.new(0.12), UDim2.new())
-			Animations[Length] = RoactAnimate.Sequence(Sequence)
+			local sequence = table.create(2)
+			sequence[1] = RoactAnimate.Prepare(self.state.mouseOnSize, UDim2.fromScale(3, 3))
+			sequence[2] = RoactAnimate(self.state.mouseOnSize, TweenInfo.new(0.12), UDim2.new())
+			animations[length] = RoactAnimate.Sequence(sequence)
 		end
 	end
 
-	if self.state.MouseDown ~= NextState.MouseDown then
-		Length += 1
-		if NextState.MouseDown then
-			if NextProps.ValueLabel then
-				local Sequence = table.create(6)
-				Sequence[1] = RoactAnimate.Prepare(self.state.MouseDownSize, UDim2.new())
-				Sequence[2] = RoactAnimate.Prepare(self.state.SliderSize, UDim2.fromOffset(12, 12))
-				Sequence[3] = RoactAnimate.Prepare(self.state.ValueLabelSize, UDim2.new())
-				Sequence[4] = RoactAnimate(self.state.MouseDownSize, TweenInfo.new(0.12), UDim2.fromScale(3, 3))
-				Sequence[5] = RoactAnimate(self.state.SliderSize, TweenInfo.new(0.2, Enum.EasingStyle.Quad), UDim2.fromOffset(14, 14))
-				Sequence[6] = RoactAnimate(self.state.ValueLabelSize, TweenInfo.new(0.12), UDim2.fromOffset(28, 40))
-				Animations[Length] = RoactAnimate.Parallel(Sequence)
+	if self.state.mouseDown ~= nextState.mouseDown then
+		length += 1
+		if nextState.mouseDown then
+			if nextProps.valueLabel then
+				local sequence = table.create(6)
+				sequence[1] = RoactAnimate.Prepare(self.state.mouseDownSize, UDim2.new())
+				sequence[2] = RoactAnimate.Prepare(self.state.sliderSize, UDim2.fromOffset(12, 12))
+				sequence[3] = RoactAnimate.Prepare(self.state.valueLabelSize, UDim2.new())
+				sequence[4] = RoactAnimate(self.state.mouseDownSize, TweenInfo.new(0.12), UDim2.fromScale(3, 3))
+				sequence[5] = RoactAnimate(self.state.sliderSize, TweenInfo.new(0.2, Enum.EasingStyle.Quad), UDim2.fromOffset(14, 14))
+				sequence[6] = RoactAnimate(self.state.valueLabelSize, TweenInfo.new(0.12), UDim2.fromOffset(28, 40))
+				animations[length] = RoactAnimate.Parallel(sequence)
 			else
-				local Sequence = table.create(4)
-				Sequence[1] = RoactAnimate.Prepare(self.state.MouseDownSize, UDim2.new())
-				Sequence[2] = RoactAnimate.Prepare(self.state.SliderSize, UDim2.fromOffset(12, 12))
-				Sequence[3] = RoactAnimate(self.state.MouseDownSize, TweenInfo.new(0.12), UDim2.fromScale(3, 3))
-				Sequence[4] = RoactAnimate(self.state.SliderSize, TweenInfo.new(0.2, Enum.EasingStyle.Quad), UDim2.fromOffset(14, 14))
-				Animations[Length] = RoactAnimate.Parallel(Sequence)
+				local sequence = table.create(4)
+				sequence[1] = RoactAnimate.Prepare(self.state.mouseDownSize, UDim2.new())
+				sequence[2] = RoactAnimate.Prepare(self.state.sliderSize, UDim2.fromOffset(12, 12))
+				sequence[3] = RoactAnimate(self.state.mouseDownSize, TweenInfo.new(0.12), UDim2.fromScale(3, 3))
+				sequence[4] = RoactAnimate(self.state.sliderSize, TweenInfo.new(0.2, Enum.EasingStyle.Quad), UDim2.fromOffset(14, 14))
+				animations[length] = RoactAnimate.Parallel(sequence)
 			end
 		else
-			if NextProps.ValueLabel then
-				Animations[Length] = RoactAnimate.Parallel({
-					RoactAnimate.Sequence
-				})
-				local Sequence = table.create(6)
-				Sequence[1] = RoactAnimate.Prepare(self.state.MouseDownSize, UDim2.new())
-				Sequence[2] = RoactAnimate.Prepare(self.state.SliderSize, UDim2.fromOffset(12, 12))
-				Sequence[3] = RoactAnimate.Prepare(self.state.ValueLabelSize, UDim2.fromOffset(28, 40))
-				Sequence[4] = RoactAnimate(self.state.MouseDownSize, TweenInfo.new(0.12), UDim2.fromScale(3, 3))
-				Sequence[5] = RoactAnimate(self.state.SliderSize, TweenInfo.new(0.2, Enum.EasingStyle.Quad), UDim2.fromOffset(14, 14))
-				Sequence[6] = RoactAnimate(self.state.ValueLabelSize, TweenInfo.new(0.12), UDim2.new())
-				Animations[Length] = RoactAnimate.Parallel(Sequence)
+			if nextProps.valueLabel then
+				local sequence = table.create(6)
+				sequence[1] = RoactAnimate.Prepare(self.state.mouseDownSize, UDim2.new())
+				sequence[2] = RoactAnimate.Prepare(self.state.sliderSize, UDim2.fromOffset(12, 12))
+				sequence[3] = RoactAnimate.Prepare(self.state.valueLabelSize, UDim2.fromOffset(28, 40))
+				sequence[4] = RoactAnimate(self.state.mouseDownSize, TweenInfo.new(0.12), UDim2.fromScale(3, 3))
+				sequence[5] = RoactAnimate(self.state.sliderSize, TweenInfo.new(0.2, Enum.EasingStyle.Quad), UDim2.fromOffset(14, 14))
+				sequence[6] = RoactAnimate(self.state.valueLabelSize, TweenInfo.new(0.12), UDim2.new())
+				animations[length] = RoactAnimate.Parallel(sequence)
 			else
-				local Sequence = table.create(4)
-				Sequence[1] = RoactAnimate.Prepare(self.state.MouseDownSize, UDim2.fromScale(3, 3))
-				Sequence[2] = RoactAnimate.Prepare(self.state.SliderSize, UDim2.fromOffset(14, 14))
-				Sequence[3] = RoactAnimate(self.state.MouseDownSize, TweenInfo.new(0.12), UDim2.new())
-				Sequence[4] = RoactAnimate(self.state.SliderSize, TweenInfo.new(0.2, Enum.EasingStyle.Quad), UDim2.fromOffset(12, 12))
-				Animations[Length] = RoactAnimate.Parallel(Sequence)
+				local sequence = table.create(4)
+				sequence[1] = RoactAnimate.Prepare(self.state.mouseDownSize, UDim2.fromScale(3, 3))
+				sequence[2] = RoactAnimate.Prepare(self.state.sliderSize, UDim2.fromOffset(14, 14))
+				sequence[3] = RoactAnimate(self.state.mouseDownSize, TweenInfo.new(0.12), UDim2.new())
+				sequence[4] = RoactAnimate(self.state.sliderSize, TweenInfo.new(0.2, Enum.EasingStyle.Quad), UDim2.fromOffset(12, 12))
+				animations[length] = RoactAnimate.Parallel(sequence)
 			end
 		end
 	end
 
-	if self.state.CurrentValue ~= NextState.CurrentValue then
-		Length += 1
-		local CurrentValue = NextState.CurrentValue
+	if self.state.currentValue ~= nextState.currentValue then
+		length += 1
+		local currentValue = nextState.currentValue
 
-		local Sequence = table.create(2)
-		Sequence[1] = RoactAnimate(self.state.BackFrameSize, TweenInfo.new(0.1, Enum.EasingStyle.Quad), UDim2.fromScale(CurrentValue / NextProps.Max, 1))
-		Sequence[2] = RoactAnimate(self.state.SliderPosition, TweenInfo.new(0.1, Enum.EasingStyle.Quad), UDim2.fromScale(CurrentValue / NextProps.Max, 0.5))
-		Animations[Length] = RoactAnimate.Parallel(Sequence)
+		local sequence = table.create(2)
+		sequence[1] = RoactAnimate(self.state.backFrameSize, TweenInfo.new(0.1, Enum.EasingStyle.Quad), UDim2.fromScale(currentValue / nextProps.Max, 1))
+		sequence[2] = RoactAnimate(self.state.sliderPosition, TweenInfo.new(0.1, Enum.EasingStyle.Quad), UDim2.fromScale(currentValue / nextProps.Max, 0.5))
+		animations[length] = RoactAnimate.Parallel(sequence)
 	end
 
---	if self.props.Grid ~= NextProps.Grid or self.props.GridColor3 ~= NextProps.GridColor3 or self.props.Max ~= NextProps.Max then
---		if NextProps.Grid then
---			
---		else
---			self:setState({
---				GridVisible = false,
---			})
---		end
---	end
-
-	RoactAnimate.Parallel(Animations):Start()
+	RoactAnimate.Parallel(animations):Start()
 end
 
 function Slider:render()
@@ -141,78 +201,62 @@ function Slider:render()
 		Position = self.props.Position,
 		Size = UDim2.fromOffset(160, 2),
 		ZIndex = self.props.ZIndex,
-		[Roact.Ref] = self.SliderRef,
+		[Roact.Ref] = self.sliderRef,
 	}, {
 		MouseButton = Roact.createElement("Frame", {
 			AnchorPoint = Vector2.new(0, 0.5),
 			BackgroundTransparency = 1,
 			Position = UDim2.fromScale(0, 0.5),
 			Size = UDim2.new(1, 0, 1, 10),
-			[Roact.Event.InputBegan] = function(_, InputObject: InputObject)
+			[Roact.Event.InputBegan] = function(_, inputObject)
 				if not self.props.Disabled then
-					if InputObject.UserInputType == Enum.UserInputType.MouseMovement then
+					if inputObject.UserInputType == Enum.UserInputType.MouseMovement then
 						self:setState({
-							MouseOver = true,
+							mouseOver = true,
 						})
-					elseif CAN_ACTIVATE[InputObject.UserInputType] then
+					elseif CAN_ACTIVATE[inputObject.UserInputType] then
 						self:setState({
-							MouseDown = true,
-						})
-					end
-				end
-			end,
-
-			[Roact.Event.InputChanged] = function(_, InputObject: InputObject)
-				if self.state.MouseDown and (InputObject.UserInputType == Enum.UserInputType.MouseMovement or InputObject.UserInputType == Enum.UserInputType.Touch) then
-					local Slider = self.SliderRef:getValue()
-					if Slider then
-						local AbsoluteSizeX = Slider.AbsoluteSize.X
-						local Position = math.clamp(InputObject.Position.X - Slider.AbsolutePosition.X, 0, AbsoluteSizeX)
-						local CurrentValue = self.props.IntegerOnly and math.floor((Position / AbsoluteSizeX) * self.props.Max + 0.5) or (Position / AbsoluteSizeX) * self.props.Max
-						self.props.OnValueChanged(CurrentValue)
-
-						self:setState({
-							CurrentValue = CurrentValue,
-							TextValue = CurrentValue * self.props.ValueLabelMultiply,
+							mouseDown = true,
 						})
 					end
 				end
 			end,
 
-			[Roact.Event.InputEnded] = function(_, InputObject: InputObject)
-				if InputObject.UserInputType == Enum.UserInputType.MouseMovement then
+			[Roact.Event.InputChanged] = function(_, inputObject)
+				if self.state.mouseDown and (inputObject.UserInputType == Enum.UserInputType.MouseMovement or inputObject.UserInputType == Enum.UserInputType.Touch) then
+					local slider = self.sliderRef:getValue()
+					if slider then
+						local absoluteSizeX = slider.AbsoluteSize.X
+						local position = math.clamp(inputObject.Position.X - slider.AbsolutePosition.X, 0, absoluteSizeX)
+						local currentValue = self.props.IntegerOnly and math.floor((position / absoluteSizeX) * self.props.Max + 0.5) or (position / absoluteSizeX) * self.props.Max
+						self.props.OnValueChanged(currentValue)
+
+						self:setState({
+							currentValue = currentValue,
+							textValue = currentValue * self.props.ValueLabelMultiply,
+						})
+					end
+				end
+			end,
+
+			[Roact.Event.InputEnded] = function(_, inputObject)
+				if inputObject.UserInputType == Enum.UserInputType.MouseMovement then
 					self:setState({
-						MouseOver = false,
+						mouseOver = false,
 					})
-				elseif CAN_ACTIVATE[InputObject.UserInputType] then
+				elseif CAN_ACTIVATE[inputObject.UserInputType] then
 					self:setState({
-						MouseDown = false,
+						mouseDown = false,
 					})
 				end
 			end,
-		
---			[Roact.Event.InputEnded] = function(_, InputObject: InputObject)
---				if InputObject.UserInputType == Enum.UserInputType.MouseMovement then
---					self:setState({
---						MouseOver = false,
---					})
---				elseif CAN_ACTIVATE[InputObject.UserInputType] then
---					self:setState({
---						MouseDown = false,
---					})
---				end
---			end,
 		}),
 
 		BackFrame = Roact.createElement(RoactAnimate.Frame, {
 			BackgroundColor3 = ThemeAccessor.Get(self, "SliderPrimaryColor3"),
-			Size = self.state.BackFrameSize,
+			Size = self.state.backFrameSize,
 			BorderSizePixel = 0,
 		}),
-
---		GridFrame = Roact.createElement("Frame", {
---			
---		}),
 
 		DisabledFrame = Roact.createElement("Frame", {
 			BackgroundColor3 = ThemeAccessor.Get(self, "SliderSecondaryColor3"),
@@ -225,8 +269,8 @@ function Slider:render()
 		SliderPoint = Roact.createElement(RoactAnimate.ImageLabel, {
 			AnchorPoint = Vector2.new(0.5, 0.5),
 			BackgroundTransparency = 1,
-			Position = self.state.SliderPosition,
-			Size = self.state.SliderSize,
+			Position = self.state.sliderPosition,
+			Size = self.state.sliderSize,
 			ZIndex = self.props.ZIndex + 3,
 			Image = "rbxassetid://1217158727",
 			ImageColor3 = ThemeAccessor.Get(self, "SliderPrimaryColor3"),
@@ -235,17 +279,17 @@ function Slider:render()
 				AnchorPoint = Vector2.new(0.5, 0.5),
 				BackgroundTransparency = 1,
 				Position = UDim2.fromScale(0.5, 0.5),
-				Size = self.state.MouseOnSize,
+				Size = self.state.mouseOnSize,
 				Image = "rbxassetid://1217158727",
 				ImageTransparency = 0.85,
 				ImageColor3 = ThemeAccessor.Get(self, "SliderPrimaryColor3"),
 			}),
 
-			MouseDownRipple = Roact.createElement(RoactAnimate.ImageLabel, {
+			mouseDownRipple = Roact.createElement(RoactAnimate.ImageLabel, {
 				AnchorPoint = Vector2.new(0.5, 0.5),
 				BackgroundTransparency = 1,
 				Position = UDim2.fromScale(0.5, 0.5),
-				Size = self.state.MouseDownSize,
+				Size = self.state.mouseDownSize,
 				Image = "rbxassetid://1217158727",
 				ImageTransparency = 0.85,
 				ImageColor3 = ThemeAccessor.Get(self, "SliderPrimaryColor3"),
@@ -255,38 +299,13 @@ function Slider:render()
 				BackgroundTransparency = 1,
 				Size = UDim2.fromScale(1, 1),
 				ZIndex = 2,
---				[Roact.Event.InputBegan] = function(_, InputObject: InputObject)
---					if not self.props.Disabled then
---						if InputObject.UserInputType == Enum.UserInputType.MouseMovement then
---							self:setState({
---								MouseOver = true,
---							})
-----						elseif CAN_ACTIVATE[InputObject.UserInputType] then
-----							self:setState({
-----								MouseDown = true,
-----							})
---						end
---					end
---				end,
---
---				[Roact.Event.InputEnded] = function(_, InputObject: InputObject)
---					if InputObject.UserInputType == Enum.UserInputType.MouseMovement then
---						self:setState({
---							MouseOver = false,
---						})
-----					elseif CAN_ACTIVATE[InputObject.UserInputType] then
-----						self:setState({
-----							MouseDown = false,
-----						})
---					end
---				end,
 			}),
 
 			ValueLabel = Roact.createElement(RoactAnimate.ImageLabel, {
 				AnchorPoint = Vector2.new(0.5, 1),
 				BackgroundTransparency = 1,
 				Position = UDim2.new(0.5, 0, 0, 2),
-				Size = self.state.ValueLabelSize,
+				Size = self.state.valueLabelSize,
 				ZIndex = 100,
 				ClipsDescendants = true,
 				Image = "rbxassetid://4638062084",
@@ -299,18 +318,11 @@ function Slider:render()
 					Size = UDim2.new(0.8, 0, 0, 28),
 					Font = Enum.Font.SourceSans,
 					TextColor3 = ThemeAccessor.Get(self, "SliderValueColor3"),
-					Text = self.state.TextValue,
+					Text = self.state.textValue,
 					TextSize = 14,
 				}),
 			}),
 		}),
-	})
-end
-
-function Slider:_DoChangeValue()
-	local CurrentValue = self.state.CurrentValue
-	self:setState({
-		
 	})
 end
 

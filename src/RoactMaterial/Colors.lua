@@ -1,26 +1,22 @@
-type Map<Index, Value> = {[Index]: Value}
-type Array<Value> = Map<number, Value>
-type Dictionary<Value> = Map<string, Value>
-
-local function Lookupify(array: Array<any>): Map<any, number>
-	local result: Map<any, number> = {}
-	for index: number, key: any in ipairs(array) do
+local function Lookupify(array)
+	local result = {}
+	for index, key in ipairs(array) do
 		result[key] = index
 	end
 
 	return result
 end
 
-local colorSteps: Array<number> = {50, 100, 200, 300, 400, 500, 600, 700, 800, 900}
-local accentSteps: Array<number> = {100, 200, 400, 700}
-local colorIndices: Map<number, number> = Lookupify(colorSteps)
-local accentIndices: Map<number, number> = Lookupify(accentSteps)
+local colorSteps = {50, 100, 200, 300, 400, 500, 600, 700, 800, 900}
+local accentSteps = {100, 200, 400, 700}
+local colorIndices = Lookupify(colorSteps)
+local accentIndices = Lookupify(accentSteps)
 
-local function IsAccent(colorName: string): boolean
+local function IsAccent(colorName): boolean
 	return string.match(colorName, "A%d+$") ~= nil
 end
 
-local Colors: Dictionary<Color3> = {
+local Colors = {
 	Amber100 = Color3.fromRGB(255, 236, 179),
 	Amber200 = Color3.fromRGB(255, 224, 130),
 	Amber300 = Color3.fromRGB(255, 213, 79),
@@ -298,11 +294,11 @@ local Colors: Dictionary<Color3> = {
 	White = Color3.fromRGB(255, 255, 255),
 }
 
-function Colors.Get(name: string, level: string | number): Color3
+function Colors.Get(name, level)
 	return Colors[name .. tostring(level)]
 end
 
-function Colors.Offset(color: string, steps: number): Color3
+function Colors.Offset(color, steps)
 	local level = tonumber(string.match(color, "(%d+)$"))
 	local name = string.match(color, "^(%a+)")
 	local isAccent = IsAccent(color)
@@ -319,7 +315,7 @@ function Colors.Offset(color: string, steps: number): Color3
 	return Colors[name .. newLevel]
 end
 
-function Colors.Lighten(color: string, steps: number): Color3
+function Colors.Lighten(color, steps)
 	return Colors.Offset(color, -steps)
 end
 

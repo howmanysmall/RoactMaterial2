@@ -20,7 +20,7 @@ function RadioGroup:render()
 		}),
 	}
 
-	for id, label in next, self.props.Options do
+	for id, label in pairs(self.props.Options) do
 		local element = Roact.createElement("TextButton", {
 			BackgroundTransparency = 1,
 			Text = "",
@@ -65,7 +65,7 @@ function RadioGroup:render()
 
 	if self.props.SizeFromContents then
 		local maximumTextWidth = 0
-		for _, label in next, self.props.Options do
+		for _, label in pairs(self.props.Options) do
 			local bounds = TextView.getTextBounds(tostring(label), "Body1")
 
 			if bounds.X > maximumTextWidth then

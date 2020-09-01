@@ -12,160 +12,189 @@ local SHADOW_SETTINGS = {
 			Transparency = 1,
 			Blur = 0,
 		},
+
 		Penumbra = {
 			Transparency = 1,
 			Blur = 0,
 		},
+
 		Ambient = {
 			Transparency = 1,
 			Blur = 0,
 		},
 	},
+
 	[1] = {
 		Umbra = {
 			Transparency = 1 - 0.14,
 			Blur = 2,
 		},
+
 		Penumbra = {
 			Transparency = 1 - 0.12,
 			Blur = 2,
 			Offset = UDim2.fromOffset(0, 2),
 		},
+
 		Ambient = {
 			Transparency = 0.8,
 			Blur = 3,
 			Offset = UDim2.fromOffset(0, 1),
 		},
 	},
+
 	[2] = {
 		Umbra = {
 			Transparency = 1 - 0.14,
 			Blur = 4,
 		},
+
 		Penumbra = {
 			Transparency = 1 - 0.12,
 			Blur = 4,
 			Offset = UDim2.fromOffset(0, 3),
 		},
+
 		Ambient = {
 			Transparency = 0.8,
 			Blur = 5,
 			Offset = UDim2.fromOffset(0, 1),
 		},
 	},
+
 	[3] = {
 		Umbra = {
 			Transparency = 1 - 0.14,
 			Blur = 3,
 			Offset = UDim2.fromOffset(0, 3),
 		},
+
 		Penumbra = {
 			Transparency = 1 - 0.12,
 			Blur = 4,
 			Offset = UDim2.fromOffset(0, 3),
 		},
+
 		Ambient = {
 			Transparency = 0.8,
 			Blur = 8,
 			Offset = UDim2.fromOffset(0, 1),
 		},
 	},
+
 	[4] = {
 		Umbra = {
 			Transparency = 1 - 0.14,
 			Blur = 4,
 			Offset = UDim2.fromOffset(0, 2),
 		},
+
 		Penumbra = {
 			Transparency = 1 - 0.12,
 			Blur = 5,
 			Offset = UDim2.fromOffset(0, 4),
 		},
+
 		Ambient = {
 			Transparency = 0.8,
 			Blur = 10,
 			Offset = UDim2.fromOffset(0, 1),
 		},
 	},
+
 	[6] = {
 		Umbra = {
 			Transparency = 1 - 0.14,
 			Blur = 10,
 			Offset = UDim2.fromOffset(0, 6),
 		},
+
 		Penumbra = {
 			Transparency = 1 - 0.12,
 			Blur = 18,
 			Offset = UDim2.fromOffset(0, 1),
 		},
+
 		Ambient = {
 			Transparency = 0.8,
 			Blur = 5,
 			Offset = UDim2.fromOffset(0, 3),
 		},
 	},
+
 	[8] = {
 		Umbra = {
 			Transparency = 1 - 0.14,
 			Blur = 10,
 			Offset = UDim2.fromOffset(0, 8),
 		},
+
 		Penumbra = {
 			Transparency = 1 - 0.12,
 			Blur = 14,
 			Offset = UDim2.fromOffset(0, 3),
 		},
+
 		Ambient = {
 			Transparency = 0.8,
 			Blur = 15,
 			Offset = UDim2.fromOffset(0, 4),
 		},
 	},
+
 	[9] = {
 		Umbra = {
 			Transparency = 1 - 0.14,
 			Blur = 12,
 			Offset = UDim2.fromOffset(0, 9),
 		},
+
 		Penumbra = {
 			Transparency = 1 - 0.12,
 			Blur = 16,
 			Offset = UDim2.fromOffset(0, 3),
 		},
+
 		Ambient = {
 			Transparency = 0.8,
 			Blur = 6,
 			Offset = UDim2.fromOffset(0, 5),
 		},
 	},
+
 	[12] = {
 		Umbra = {
 			Transparency = 1 - 0.14,
 			Blur = 17,
 			Offset = UDim2.fromOffset(0, 12),
 		},
+
 		Penumbra = {
 			Transparency = 1 - 0.12,
 			Blur = 22,
 			Offset = UDim2.fromOffset(0, 5),
 		},
+
 		Ambient = {
 			Transparency = 0.8,
 			Blur = 8,
 			Offset = UDim2.fromOffset(0, 7),
 		},
 	},
+
 	[16] = {
 		Umbra = {
 			Transparency = 1 - 0.14,
 			Blur = 24,
 			Offset = UDim2.fromOffset(0, 16),
 		},
+
 		Penumbra = {
 			Transparency = 1 - 0.12,
 			Blur = 30,
 			Offset = UDim2.fromOffset(0, 6),
 		},
+
 		Ambient = {
 			Transparency = 0.8,
 			Blur = 10,

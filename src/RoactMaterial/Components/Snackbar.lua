@@ -1,99 +1,49 @@
-local TextService = game:GetService("TextService")
 local Configuration = require(script.Parent.Parent.Configuration)
-local Shadow = require(script.Parent.Shadow)
+local _ = require(script.Parent.Parent.Utility.ThemeAccessor)
 
 local Roact = Configuration.Roact
 local RoactAnimate = Configuration.RoactAnimate
-local enumerate = Configuration.enumerate
+local t = Configuration.t
 
-local Snackbar = Roact.PureComponent:extend("MaterialSnackbar")
-Snackbar.SnackbarPosition = enumerate("SnackbarPosition", {"Center", "Left", "Right"})
+local Snackbar = Roact.Component:extend("MaterialSnackbar")
 Snackbar.defaultProps = {
-	Position = Snackbar.SnackbarPosition.Center,
-	Text = "Hello, world!",
+	Position = "Center",
 	Visible = false,
-
-	ActionText = "",
-	OnAction = function()
-	end,
 }
 
-local CORNER_OFFSET = 8
-local HEIGHT = 48
+Snackbar.validateProps = t.interface({
+	Position = t.optional(t.union(t.literal("Center"), t.literal("Left"), t.literal("Right"))),
+	Visible = t.optional(t.boolean),
+	Text = t.string,
+})
 
-local function setStateFromProps(self, props)
-	if props.Position == Snackbar.SnackbarPosition.Center then
-		if props.Visible then
-			self:setState({
-				SnackbarAnchorPoint = RoactAnimate.Value.new(Vector2.new(0.5, 0)),
-				SnackbarPosition = RoactAnimate.Value.new(UDim2.new(0.5, 0, 1, -HEIGHT - CORNER_OFFSET)),
-				Visible = true,
-			})
-		else
-			self:setState({
-				SnackbarAnchorPoint = RoactAnimate.Value.new(Vector2.new(0.5, 0)),
-				SnackbarPosition = RoactAnimate.Value.new(UDim2.fromScale(0.5, 1)),
-				Visible = false,
-			})
-		end
-	elseif props.Position == Snackbar.SnackbarPosition.Left then
-		if props.Visible then
-			self:setState({
-				SnackbarAnchorPoint = RoactAnimate.Value.new(Vector2.new()),
-				SnackbarPosition = RoactAnimate.Value.new(UDim2.new(0, 7, 1, -HEIGHT - CORNER_OFFSET)),
-				Visible = true,
-			})
-		else
-			self:setState({
-				SnackbarAnchorPoint = RoactAnimate.Value.new(Vector2.new()),
-				SnackbarPosition = RoactAnimate.Value.new(UDim2.new(0, 7, 1, 0)),
-				Visible = false,
-			})
-		end
-	elseif props.Position == Snackbar.SnackbarPosition.Right then
-		if props.Visible then
-			self:setState({
-				SnackbarAnchorPoint = RoactAnimate.Value.new(Vector2.new(1, 0)),
-				SnackbarPosition = RoactAnimate.Value.new(UDim2.new(1, -7, 1, -HEIGHT - CORNER_OFFSET)),
-				Visible = true,
-			})
-		else
-			self:setState({
-				SnackbarAnchorPoint = RoactAnimate.Value.new(Vector2.new(1, 0)),
-				SnackbarPosition = RoactAnimate.Value.new(UDim2.new(1, -7, 1, 0)),
-				Visible = false,
-			})
-		end
-	else
-		error("Bad Position type!")
-	end
+local _ = { -- SNACKBAR_POSITIONS
+	Center = {
+		AnchorPoint = Vector2.new(0.5, 0),
+		ExitPosition = UDim2.fromScale(0.5, 1),
+		EnterPosition = UDim2.new(0.5, 0, 1, -56),
+	},
+
+	Left = {
+		AnchorPoint = Vector2.new(),
+		ExitPosition = UDim2.new(0, 7, 1, 0),
+		EnterPosition = UDim2.new(0, 7, 1, -56),
+	},
+
+	Right = {
+		AnchorPoint = Vector2.new(1, 0),
+		ExitPosition = UDim2.new(1, -7, 1, 0),
+		EnterPosition = UDim2.new(1, -7, 1, -56),
+	},
+}
+
+function Snackbar:init(_)
+	self:setState({})
 end
 
-Snackbar.init = setStateFromProps
-function Snackbar:willUpdate(nextProps, nextState)
-	if nextState.Visible then
-		
-	else
-		
-	end
-
-	local goalColor
-	if nextState._pressed then
-		goalColor = self.props.PressColor3 or ThemeAccessor.Get(self, self.props.Flat and "FlatButtonPressColor" or "ButtonPressColor", Color3.new(0.9, 0.9, 0.9))
-	elseif nextState._mouseOver then
-		goalColor = self.props.HoverColor3 or ThemeAccessor.Get(self, self.props.Flat and "FlatButtonHoverColor" or "ButtonHoverColor", WHITE_COLOR3)
-	else
-		goalColor = self.props.BackgroundColor3 or ThemeAccessor.Get(self, self.props.Flat and "FlatButtonColor" or "ButtonColor", WHITE_COLOR3)
-	end
-
-	RoactAnimate(self.state._bgColor, COLOR_TWEEN_INFO, goalColor):Start()
-end
-
-function Snackbar:render()
+function Snackbar.render(_)
 	return Roact.createElement(RoactAnimate.Frame, {
 		BackgroundTransparency = 1,
-	}, {
-		
 	})
 end
 

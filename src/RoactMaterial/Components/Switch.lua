@@ -27,7 +27,7 @@ function Switch:init(props)
 	})
 end
 
-function Switch:willUpdate(nextProps, nextState)
+function Switch:willUpdate(nextProps)
 	if self.props.Checked ~= nextProps.Checked then
 		local newTogglePosition = nextProps.Checked and UDim2.new(1, -10, 0.5, 0) or UDim2.new(0, 10, 0.5, 0)
 		local newToggleColor = ThemeAccessor.Get(self, nextProps.Checked and "SwitchToggleOnColor" or "SwitchToggleOffColor")

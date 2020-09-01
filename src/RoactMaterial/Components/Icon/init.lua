@@ -30,7 +30,7 @@ local function ClosestResolution(icon, goalResolution)
 	local closest = 0
 	local closestDelta = nil
 
-	for resolution in next, icon do
+	for resolution in pairs(icon) do
 		if goalResolution % resolution == 0 or resolution % goalResolution == 0 then
 			return resolution
 		elseif not closestDelta or math.abs(resolution - goalResolution) < closestDelta then

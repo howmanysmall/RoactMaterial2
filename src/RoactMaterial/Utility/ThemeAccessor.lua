@@ -1,3 +1,4 @@
+-- TODO: Convert to use Context API - https://roblox.github.io/roact/advanced/context/
 local ThemeAccessor = {}
 
 function ThemeAccessor.Get(object, key, default)

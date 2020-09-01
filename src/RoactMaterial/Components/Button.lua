@@ -8,6 +8,7 @@ local ThemeAccessor = require(script.Parent.Parent.Utility.ThemeAccessor)
 
 local Roact = Configuration.Roact
 local RoactAnimate = Configuration.RoactAnimate
+local t = Configuration.t
 
 local RIPPLE_TRIGGER_INPUT_TYPES = {
 	Enum.UserInputType.MouseButton1,
@@ -29,6 +30,22 @@ Button.defaultProps = {
 	ZIndex = 1,
 	Text = "",
 }
+
+Button.validateProps = t.interface({
+	AnchorPoint = t.optional(t.Vector2),
+	Position = t.optional(t.UDim2),
+	Size = t.optional(t.UDim2),
+	ZIndex = t.optional(t.integer),
+	LayoutOrder = t.optional(t.integer),
+	Text = t.optional(t.string),
+
+	BackgroundColor3 = t.optional(t.Color3),
+	PressColor3 = t.optional(t.Color3),
+	HoverColor3 = t.optional(t.Color3),
+	InkColor3 = t.optional(t.Color3),
+	Flat = t.optional(t.boolean),
+	OnClicked = t.optional(t.callback),
+})
 
 local WHITE_COLOR3 = Color3.new(1, 1, 1)
 local FULL_UDIM2 = UDim2.fromScale(1, 1)
@@ -133,7 +150,7 @@ function Button:render()
 				end
 			end,
 
-			[Roact.Event.InputEnded] = function(rbx, input)
+			[Roact.Event.InputEnded] = function(_, input)
 				if input.UserInputType == Enum.UserInputType.MouseMovement then
 					self:setState({
 						Elevation = 2,
