@@ -10,7 +10,6 @@ return function(Target)
 		}),
 	}
 
-	local Count: number = 0
 	for Icon in next, RoactMaterial.IconSpritesheets do
 		Icons[Icon] = Roact.createElement(RoactMaterial.Icon, {
 			Icon = Icon,

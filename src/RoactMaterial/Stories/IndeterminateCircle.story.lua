@@ -1,9 +1,7 @@
 local Roact = require(script.Parent.Parent.Parent.Roact)
 local RoactMaterial = require(script.Parent.Parent)
 
-local ExampleComponent = Roact.Component:extend("IndeterminateCircleComponent")
-
-function ExampleComponent:render()
+local function ExampleComponent()
 	return Roact.createElement(RoactMaterial.ThemeProvider, {
 		Theme = RoactMaterial.Themes.Light,
 	}, {
