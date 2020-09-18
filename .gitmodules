@@ -7,3 +7,6 @@
 [submodule "modules/t"]
 	path = modules/t
 	url = https://github.com/osyrisrblx/t
+[submodule "modules/BoatTween"]
+	path = modules/BoatTween
+	url = https://github.com/boatbomber/BoatTween
