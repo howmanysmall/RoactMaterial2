@@ -30,6 +30,9 @@ local TEXT_CLASSES = {
 	ButtonSize = 18,
 	CaptionFont = Enum.Font.SourceSans,
 	CaptionSize = 14,
+
+	SnackbarFont = Enum.Font.SourceSans,
+	SnackbarSize = 20,
 }
 
 local TextView = Roact.Component:extend("MaterialTextView")

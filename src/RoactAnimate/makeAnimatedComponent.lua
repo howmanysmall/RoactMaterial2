@@ -1,10 +1,22 @@
 -- Wraps a component to produce a new component that responds to animated values.
 
-local TweenService = game:GetService("TweenService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local AnimatedValue = require(script.Parent.AnimatedValue)
-local Roact = require(script.Parent.Parent.Roact)
+local BoatTween = require(ReplicatedStorage.BoatTween)
+local Roact = require(ReplicatedStorage.Roact)
 
 local NON_PRIMITIVE_ERROR = "The component %q cannot be animated because it is not a primitive component."
+
+type EasingData = {
+	Time: number,
+	EasingStyle: string,
+	EasingDirection: string,
+	DelayTime: number?,
+	RepeatCount: number?,
+	Reverses: boolean?,
+	Goal: {[string]: any},
+	StepType: string
+}
 
 local function makeAnimatedComponent(toWrap)
 	if type(toWrap) ~= "string" then
@@ -21,23 +33,22 @@ local function makeAnimatedComponent(toWrap)
 			if type(value) == "table" and value._class == AnimatedValue then
 				local _currentTween = nil
 
-				table.insert(self._listeners, value.AnimationStarted:Connect(function(to, tweenInfo)
+				table.insert(self._listeners, value.AnimationStarted:Connect(function(to, data)
 					if self._rbx then
 						if _currentTween then
-							_currentTween:Cancel()
+							_currentTween:Stop()
 							_currentTween = _currentTween:Destroy()
 						end
 
-						local tween = TweenService:Create(self._rbx, tweenInfo, {[key] = to})
+						data.Goal = {[key] = to}
+						local tween = BoatTween:Create(self._rbx, data)
 						tween:Play()
 						_currentTween = tween
 
-						_currentTween.Completed:Connect(function(status)
-							if status == Enum.PlaybackState.Completed then
-								value:FinishAnimation()
-								tween = nil
-								_currentTween = _currentTween:Destroy()
-							end
+						_currentTween.Completed:Connect(function()
+							value:FinishAnimation()
+							tween = nil
+							_currentTween = _currentTween:Destroy()
 						end)
 					end
 				end))

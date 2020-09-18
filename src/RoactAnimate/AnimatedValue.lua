@@ -31,8 +31,8 @@ end
 --[[
 	Starts an animation over the property's value, using supplied tween properties.
 ]]
-function Value:StartAnimation(toValue, tweenInfo)
-	self.AnimationStarted:Fire(toValue, tweenInfo)
+function Value:StartAnimation(toValue, data)
+	self.AnimationStarted:Fire(toValue, data)
 end
 
 --[[

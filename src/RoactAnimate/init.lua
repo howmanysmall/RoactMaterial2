@@ -9,7 +9,7 @@ local RoactAnimate = {
 }
 
 -- Create animated variants of all the Roblox classes
-for _, className in ipairs({"Frame", "ImageButton", "ImageLabel", "ScrollingFrame", "TextBox", "TextButton", "TextLabel", "ViewportFrame"}) do
+for _, className in ipairs({"Frame", "ImageButton", "ImageLabel", "ScrollingFrame", "TextBox", "TextButton", "TextLabel", "ViewportFrame", "VideoFrame"}) do
 	RoactAnimate[className] = makeAnimatedComponent(className)
 end
 

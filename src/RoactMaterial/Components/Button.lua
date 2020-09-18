@@ -17,10 +17,11 @@ local RIPPLE_TRIGGER_INPUT_TYPES = {
 	Enum.UserInputType.Touch,
 }
 
-local COLOR_TWEEN_INFO = TweenInfo.new(
-	0.15,
-	Enum.EasingStyle.Linear
-)
+local COLOR_TWEEN_DATA = {
+	Time = 0.15,
+	EasingStyle = "Standard",
+	StepType = "Heartbeat",
+}
 
 local Button = Roact.PureComponent:extend("MaterialButton")
 Button.defaultProps = {
@@ -71,7 +72,7 @@ function Button:willUpdate(_, nextState)
 		goalColor = self.props.BackgroundColor3 or ThemeAccessor.Get(self, self.props.Flat and "FlatButtonColor" or "ButtonColor", WHITE_COLOR3)
 	end
 
-	RoactAnimate(self.state._bgColor, COLOR_TWEEN_INFO, goalColor):Start()
+	RoactAnimate(self.state._bgColor, COLOR_TWEEN_DATA, goalColor):Start()
 end
 
 local function _scheduleHitTest(self, rbx)
@@ -127,7 +128,7 @@ function Button:render()
 				self._rbx = rbx
 			end,
 
-			[Roact.Event.InputBegan] = function(rbx, input: InputObject)
+			[Roact.Event.InputBegan] = function(rbx, input)
 				if input.UserInputType == Enum.UserInputType.MouseMovement then
 					self:setState({
 						Elevation = 4,

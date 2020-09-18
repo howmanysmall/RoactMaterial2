@@ -11,10 +11,10 @@ Animation.__index = Animation
 --[[
 	Creates a new Animation.
 ]]
-function Animation.new(value, tweenInfo, to)
+function Animation.new(value, data, to)
 	local self = setmetatable({
 		_value = value,
-		_tween = tweenInfo,
+		_data = data,
 		_to = to,
 		AnimationFinished = Signal.new(),
 	}, Animation)
@@ -32,7 +32,7 @@ end
 	Starts the animation.
 ]]
 function Animation:Start()
-	self._value:StartAnimation(self._to, self._tween)
+	self._value:StartAnimation(self._to, self._data)
 end
 
 return Animation

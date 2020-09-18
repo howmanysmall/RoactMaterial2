@@ -12,6 +12,18 @@ local RoactAnimate = Configuration.RoactAnimate
 local Menu = Roact.Component:extend("MaterialMenu")
 Menu.Divider = newproxy(false)
 
+local MENU_TWEEN_DATA_OPENING = {
+	Time = 0.2,
+	EasingStyle = "Deceleration",
+	StepType = "Heartbeat",
+}
+
+local MENU_TWEEN_DATA_CLOSING = {
+	Time = 0.2,
+	EasingStyle = "Acceleration",
+	StepType = "Heartbeat",
+}
+
 function Menu:init()
 	self:setState({
 		_size = RoactAnimate.Value.new(UDim2.new()),
@@ -20,9 +32,9 @@ end
 
 function Menu:didUpdate()
 	if self.props.Open then
-		RoactAnimate(self.state._size, TweenInfo.new(0.2), self:_computeOpenSize()):Start()
+		RoactAnimate(self.state._size, MENU_TWEEN_DATA_OPENING, self:_computeOpenSize()):Start()
 	else
-		RoactAnimate(self.state._size, TweenInfo.new(0.2), UDim2.new()):Start()
+		RoactAnimate(self.state._size, MENU_TWEEN_DATA_CLOSING, UDim2.new()):Start()
 	end
 end
 

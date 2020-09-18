@@ -3,11 +3,11 @@ local Roact = Configuration.Roact
 local RoactAnimate = Configuration.RoactAnimate
 
 local RIPPLE_IMAGE = "rbxassetid://1318074921"
-local RIPPLE_TWEEN_INFO = TweenInfo.new(
-	0.2,
-	Enum.EasingStyle.Linear,
-	Enum.EasingDirection.In
-)
+local RIPPLE_TWEEN_DATA = {
+	Time = 0.2,
+	EasingStyle = "Deceleration",
+	StepType = "Heartbeat",
+}
 
 local RIPPLE_MAX_SIZE = UDim2.fromScale(2, 2)
 
@@ -78,8 +78,8 @@ function Ink:willUpdate(nextProps)
 	end
 
 	local animation = table.create(2)
-	animation[1] = RoactAnimate(self.state._transparency, RIPPLE_TWEEN_INFO, goalTransparency)
-	animation[2] = RoactAnimate(self.state._size, RIPPLE_TWEEN_INFO, goalSize)
+	animation[1] = RoactAnimate(self.state._transparency, RIPPLE_TWEEN_DATA, goalTransparency)
+	animation[2] = RoactAnimate(self.state._size, RIPPLE_TWEEN_DATA, goalSize)
 
 	RoactAnimate.Parallel(animation):Start()
 end

@@ -22,6 +22,18 @@ function RadioButton:init(props)
 	})
 end
 
+local TRANSPARENCY_TWEEN_DATA = {
+	Time = 0.225,
+	EasingStyle = "Standard",
+	StepType = "Heartbeat",
+}
+
+local RIPPLE_TWEEN_DATA = {
+	Time = 0.15,
+	EasingStyle = "Deceleration",
+	StepType = "Heartbeat",
+}
+
 function RadioButton:willUpdate(nextProps)
 	local outlineColor = ThemeAccessor.Get(self, "CheckOutlineColor")
 	local newTransparency = 1
@@ -33,16 +45,16 @@ function RadioButton:willUpdate(nextProps)
 	end
 
 	local animations = {
-		RoactAnimate(self.state._fillTransparency, TweenInfo.new(0.225), newTransparency),
-		RoactAnimate(self.state._outlineTransparency, TweenInfo.new(0.225), newOutlineTransparency),
+		RoactAnimate(self.state._fillTransparency, TRANSPARENCY_TWEEN_DATA, newTransparency),
+		RoactAnimate(self.state._outlineTransparency, TRANSPARENCY_TWEEN_DATA, newOutlineTransparency),
 	}
 
 	if nextProps.Checked ~= self.props.Checked and nextProps.Checked then
 		local sequence = table.create(4)
 		sequence[1] = RoactAnimate.Prepare(self.state._rippleSize, UDim2.new())
 		sequence[2] = RoactAnimate.Prepare(self.state._rippleTransparency, 0.6)
-		sequence[3] = RoactAnimate(self.state._rippleSize, TweenInfo.new(0.15), UDim2.fromScale(1.75, 1.75))
-		sequence[4] = RoactAnimate(self.state._rippleTransparency, TweenInfo.new(0.15), 1)
+		sequence[3] = RoactAnimate(self.state._rippleSize, RIPPLE_TWEEN_DATA, UDim2.fromScale(1.75, 1.75))
+		sequence[4] = RoactAnimate(self.state._rippleTransparency, RIPPLE_TWEEN_DATA, 1)
 
 		table.insert(animations, RoactAnimate.Sequence(sequence))
 	end

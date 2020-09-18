@@ -1,8 +1,10 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
 local Configuration = {
-	Promise = require(script.Parent.Parent.Promise),
-	Roact = require(script.Parent.Parent.Roact),
-	RoactAnimate = require(script.Parent.Parent.RoactAnimate),
-	t = require(script.Parent.Parent.t),
+	Promise = require(ReplicatedStorage.Promise),
+	Roact = require(ReplicatedStorage.Roact),
+	RoactAnimate = require(ReplicatedStorage.RoactAnimate),
+	t = require(ReplicatedStorage.t),
 	Warnings = {},
 }
 

@@ -9,14 +9,24 @@ local RIPPLE_IMAGE = "rbxassetid://1318074921"
 local UNCHECKED_ICON = "check_box_outline_blank"
 local CHECKED_ICON = "check_box"
 
-local TWEEN_INFO_1 = TweenInfo.new(0.15)
-local TWEEN_INFO_2 = TweenInfo.new(0.225)
 local EMPTY_UDIM2 = UDim2.new()
 local RIPPLE_SIZE = UDim2.fromScale(1.75, 1.75)
 local FULL_UDIM2 = UDim2.fromScale(1, 1)
 local CHECK_SIZE = UDim2.fromOffset(24, 24)
 local CENTER_UDIM2 = UDim2.fromScale(0.5, 0.5)
 local CENTER_VECTOR2 = Vector2.new(0.5, 0.5)
+
+local TWEEN_DATA_1 = {
+	Time = 0.15,
+	EasingStyle = "Standard",
+	StepType = "Heartbeat",
+}
+
+local TWEEN_DATA_2 = {
+	Time = 0.225,
+	EasingStyle = "Standard",
+	StepType = "Heartbeat",
+}
 
 local Checkbox = Roact.PureComponent:extend("MaterialCheckbox")
 Checkbox.defaultProps = {
@@ -45,14 +55,14 @@ function Checkbox:willUpdate(nextProps)
 			local sequence = table.create(4)
 			sequence[1] = RoactAnimate.Prepare(self.state._rippleSize, EMPTY_UDIM2)
 			sequence[2] = RoactAnimate.Prepare(self.state._rippleTransparency, 0.6)
-			sequence[3] = RoactAnimate(self.state._rippleSize, TWEEN_INFO_1, RIPPLE_SIZE)
-			sequence[4] = RoactAnimate(self.state._rippleTransparency, TWEEN_INFO_1, 1)
+			sequence[3] = RoactAnimate(self.state._rippleSize, TWEEN_DATA_1, RIPPLE_SIZE)
+			sequence[4] = RoactAnimate(self.state._rippleTransparency, TWEEN_DATA_1, 1)
 
 			table.insert(animations, RoactAnimate.Sequence(sequence))
 		end
 	end
 
-	table.insert(animations, RoactAnimate(self.state._fillTransparency, TWEEN_INFO_2, newTransparency))
+	table.insert(animations, RoactAnimate(self.state._fillTransparency, TWEEN_DATA_2, newTransparency))
 	RoactAnimate.Parallel(animations):Start()
 end
 

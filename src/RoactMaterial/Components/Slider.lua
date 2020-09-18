@@ -75,7 +75,7 @@ end
 -- 				Sequence[2] = RoactAnimate.Prepare(self.state.sliderSize, UDim2.fromOffset(12, 12))
 -- 				Sequence[3] = RoactAnimate.Prepare(self.state.valueLabelSize, UDim2.new())
 -- 				Sequence[4] = RoactAnimate(self.state.mouseDownSize, TweenInfo.new(0.12), UDim2.fromScale(3, 3))
--- 				Sequence[5] = RoactAnimate(self.state.sliderSize, TweenInfo.new(0.2, Enum.EasingStyle.Quad), UDim2.fromOffset(14, 14))
+-- 				Sequence[5] = RoactAnimate(self.state.sliderSize, SLIDER_TWEEN_DATA, UDim2.fromOffset(14, 14))
 -- 				Sequence[6] = RoactAnimate(self.state.valueLabelSize, TweenInfo.new(0.12), UDim2.fromOffset(28, 40))
 -- 				animations[length] = RoactAnimate.Parallel(Sequence)
 -- 			else
@@ -83,7 +83,7 @@ end
 -- 				Sequence[1] = RoactAnimate.Prepare(self.state.mouseDownSize, UDim2.new())
 -- 				Sequence[2] = RoactAnimate.Prepare(self.state.sliderSize, UDim2.fromOffset(12, 12))
 -- 				Sequence[3] = RoactAnimate(self.state.mouseDownSize, TweenInfo.new(0.12), UDim2.fromScale(3, 3))
--- 				Sequence[4] = RoactAnimate(self.state.sliderSize, TweenInfo.new(0.2, Enum.EasingStyle.Quad), UDim2.fromOffset(14, 14))
+-- 				Sequence[4] = RoactAnimate(self.state.sliderSize, SLIDER_TWEEN_DATA, UDim2.fromOffset(14, 14))
 -- 				animations[Length] = RoactAnimate.Parallel(Sequence)
 -- 			end
 -- 		else
@@ -93,7 +93,7 @@ end
 -- 				Sequence[2] = RoactAnimate.Prepare(self.state.sliderSize, UDim2.fromOffset(12, 12))
 -- 				Sequence[3] = RoactAnimate.Prepare(self.state.valueLabelSize, UDim2.fromOffset(28, 40))
 -- 				Sequence[4] = RoactAnimate(self.state.mouseDownSize, TweenInfo.new(0.12), UDim2.fromScale(3, 3))
--- 				Sequence[5] = RoactAnimate(self.state.sliderSize, TweenInfo.new(0.2, Enum.EasingStyle.Quad), UDim2.fromOffset(14, 14))
+-- 				Sequence[5] = RoactAnimate(self.state.sliderSize, SLIDER_TWEEN_DATA, UDim2.fromOffset(14, 14))
 -- 				Sequence[6] = RoactAnimate(self.state.valueLabelSize, TweenInfo.new(0.12), UDim2.new())
 -- 				animations[length] = RoactAnimate.Parallel(Sequence)
 -- 			else
@@ -101,7 +101,7 @@ end
 -- 				Sequence[1] = RoactAnimate.Prepare(self.state.mouseDownSize, UDim2.fromScale(3, 3))
 -- 				Sequence[2] = RoactAnimate.Prepare(self.state.sliderSize, UDim2.fromOffset(14, 14))
 -- 				Sequence[3] = RoactAnimate(self.state.mouseDownSize, TweenInfo.new(0.12), UDim2.new())
--- 				Sequence[4] = RoactAnimate(self.state.sliderSize, TweenInfo.new(0.2, Enum.EasingStyle.Quad), UDim2.fromOffset(12, 12))
+-- 				Sequence[4] = RoactAnimate(self.state.sliderSize, SLIDER_TWEEN_DATA, UDim2.fromOffset(12, 12))
 -- 				animations[length] = RoactAnimate.Parallel(Sequence)
 -- 			end
 -- 		end
@@ -120,6 +120,30 @@ end
 -- 	RoactAnimate.Parallel(animations):Start()
 -- end
 
+local MOUSE_OVER_TRUE_TWEEN_DATA = {
+	Time = 0.12,
+	EasingStyle = "Deceleration",
+	StepType = "Heartbeat",
+}
+
+local MOUSE_OVER_FALSE_TWEEN_DATA = {
+	Time = 0.12,
+	EasingStyle = "Acceleration",
+	StepType = "Heartbeat",
+}
+
+local SLIDER_TWEEN_DATA = {
+	Time = 0.2,
+	EasingStyle = "Standard",
+	StepType = "Heartbeat",
+}
+
+local VALUE_TWEEN_DATA = {
+	Time = 0.1,
+	EasingStyle = "Standard",
+	StepType = "Heartbeat",
+}
+
 function Slider:willUpdate(nextProps, nextState)
 	local animations = {}
 	local length = 0
@@ -129,12 +153,12 @@ function Slider:willUpdate(nextProps, nextState)
 		if nextState.mouseOver then
 			local sequence = table.create(2)
 			sequence[1] = RoactAnimate.Prepare(self.state.mouseOnSize, UDim2.new())
-			sequence[2] = RoactAnimate(self.state.mouseOnSize, TweenInfo.new(0.12), UDim2.fromScale(3, 3))
+			sequence[2] = RoactAnimate(self.state.mouseOnSize, MOUSE_OVER_TRUE_TWEEN_DATA, UDim2.fromScale(3, 3))
 			animations[length] = RoactAnimate.Sequence(sequence)
 		else
 			local sequence = table.create(2)
 			sequence[1] = RoactAnimate.Prepare(self.state.mouseOnSize, UDim2.fromScale(3, 3))
-			sequence[2] = RoactAnimate(self.state.mouseOnSize, TweenInfo.new(0.12), UDim2.new())
+			sequence[2] = RoactAnimate(self.state.mouseOnSize, MOUSE_OVER_FALSE_TWEEN_DATA, UDim2.new())
 			animations[length] = RoactAnimate.Sequence(sequence)
 		end
 	end
@@ -147,16 +171,16 @@ function Slider:willUpdate(nextProps, nextState)
 				sequence[1] = RoactAnimate.Prepare(self.state.mouseDownSize, UDim2.new())
 				sequence[2] = RoactAnimate.Prepare(self.state.sliderSize, UDim2.fromOffset(12, 12))
 				sequence[3] = RoactAnimate.Prepare(self.state.valueLabelSize, UDim2.new())
-				sequence[4] = RoactAnimate(self.state.mouseDownSize, TweenInfo.new(0.12), UDim2.fromScale(3, 3))
-				sequence[5] = RoactAnimate(self.state.sliderSize, TweenInfo.new(0.2, Enum.EasingStyle.Quad), UDim2.fromOffset(14, 14))
-				sequence[6] = RoactAnimate(self.state.valueLabelSize, TweenInfo.new(0.12), UDim2.fromOffset(28, 40))
+				sequence[4] = RoactAnimate(self.state.mouseDownSize, MOUSE_OVER_TRUE_TWEEN_DATA, UDim2.fromScale(3, 3))
+				sequence[5] = RoactAnimate(self.state.sliderSize, SLIDER_TWEEN_DATA, UDim2.fromOffset(14, 14))
+				sequence[6] = RoactAnimate(self.state.valueLabelSize, MOUSE_OVER_TRUE_TWEEN_DATA, UDim2.fromOffset(28, 40))
 				animations[length] = RoactAnimate.Parallel(sequence)
 			else
 				local sequence = table.create(4)
 				sequence[1] = RoactAnimate.Prepare(self.state.mouseDownSize, UDim2.new())
 				sequence[2] = RoactAnimate.Prepare(self.state.sliderSize, UDim2.fromOffset(12, 12))
-				sequence[3] = RoactAnimate(self.state.mouseDownSize, TweenInfo.new(0.12), UDim2.fromScale(3, 3))
-				sequence[4] = RoactAnimate(self.state.sliderSize, TweenInfo.new(0.2, Enum.EasingStyle.Quad), UDim2.fromOffset(14, 14))
+				sequence[3] = RoactAnimate(self.state.mouseDownSize, MOUSE_OVER_TRUE_TWEEN_DATA, UDim2.fromScale(3, 3))
+				sequence[4] = RoactAnimate(self.state.sliderSize, SLIDER_TWEEN_DATA, UDim2.fromOffset(14, 14))
 				animations[length] = RoactAnimate.Parallel(sequence)
 			end
 		else
@@ -165,16 +189,16 @@ function Slider:willUpdate(nextProps, nextState)
 				sequence[1] = RoactAnimate.Prepare(self.state.mouseDownSize, UDim2.new())
 				sequence[2] = RoactAnimate.Prepare(self.state.sliderSize, UDim2.fromOffset(12, 12))
 				sequence[3] = RoactAnimate.Prepare(self.state.valueLabelSize, UDim2.fromOffset(28, 40))
-				sequence[4] = RoactAnimate(self.state.mouseDownSize, TweenInfo.new(0.12), UDim2.fromScale(3, 3))
-				sequence[5] = RoactAnimate(self.state.sliderSize, TweenInfo.new(0.2, Enum.EasingStyle.Quad), UDim2.fromOffset(14, 14))
-				sequence[6] = RoactAnimate(self.state.valueLabelSize, TweenInfo.new(0.12), UDim2.new())
+				sequence[4] = RoactAnimate(self.state.mouseDownSize, MOUSE_OVER_FALSE_TWEEN_DATA, UDim2.fromScale(3, 3))
+				sequence[5] = RoactAnimate(self.state.sliderSize, SLIDER_TWEEN_DATA, UDim2.fromOffset(14, 14))
+				sequence[6] = RoactAnimate(self.state.valueLabelSize, MOUSE_OVER_FALSE_TWEEN_DATA, UDim2.new())
 				animations[length] = RoactAnimate.Parallel(sequence)
 			else
 				local sequence = table.create(4)
 				sequence[1] = RoactAnimate.Prepare(self.state.mouseDownSize, UDim2.fromScale(3, 3))
 				sequence[2] = RoactAnimate.Prepare(self.state.sliderSize, UDim2.fromOffset(14, 14))
-				sequence[3] = RoactAnimate(self.state.mouseDownSize, TweenInfo.new(0.12), UDim2.new())
-				sequence[4] = RoactAnimate(self.state.sliderSize, TweenInfo.new(0.2, Enum.EasingStyle.Quad), UDim2.fromOffset(12, 12))
+				sequence[3] = RoactAnimate(self.state.mouseDownSize, MOUSE_OVER_FALSE_TWEEN_DATA, UDim2.new())
+				sequence[4] = RoactAnimate(self.state.sliderSize, SLIDER_TWEEN_DATA, UDim2.fromOffset(12, 12))
 				animations[length] = RoactAnimate.Parallel(sequence)
 			end
 		end
@@ -185,8 +209,8 @@ function Slider:willUpdate(nextProps, nextState)
 		local currentValue = nextState.currentValue
 
 		local sequence = table.create(2)
-		sequence[1] = RoactAnimate(self.state.backFrameSize, TweenInfo.new(0.1, Enum.EasingStyle.Quad), UDim2.fromScale(currentValue / nextProps.Max, 1))
-		sequence[2] = RoactAnimate(self.state.sliderPosition, TweenInfo.new(0.1, Enum.EasingStyle.Quad), UDim2.fromScale(currentValue / nextProps.Max, 0.5))
+		sequence[1] = RoactAnimate(self.state.backFrameSize, VALUE_TWEEN_DATA, UDim2.fromScale(currentValue / nextProps.Max, 1))
+		sequence[2] = RoactAnimate(self.state.sliderPosition, VALUE_TWEEN_DATA, UDim2.fromScale(currentValue / nextProps.Max, 0.5))
 		animations[length] = RoactAnimate.Parallel(sequence)
 	end
 

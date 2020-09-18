@@ -27,6 +27,18 @@ function Switch:init(props)
 	})
 end
 
+local SIZE_TWEEN_DATA = {
+	Time = 0.15,
+	EasingStyle = "Deceleration",
+	StepType = "Heartbeat",
+}
+
+local SWITCH_TWEEN_DATA = {
+	Time = 0.225,
+	EasingStyle = "Deceleration",
+	StepType = "Heartbeat",
+}
+
 function Switch:willUpdate(nextProps)
 	if self.props.Checked ~= nextProps.Checked then
 		local newTogglePosition = nextProps.Checked and UDim2.new(1, -10, 0.5, 0) or UDim2.new(0, 10, 0.5, 0)
@@ -38,13 +50,13 @@ function Switch:willUpdate(nextProps)
 		sequence[1] = RoactAnimate.Prepare(self.state._rippleSize, UDim2.new())
 		sequence[2] = RoactAnimate.Prepare(self.state._rippleTransparency, 0.6)
 		sequence[3] = RoactAnimate.Prepare(self.state._rippleColor, newRippleColor)
-		sequence[4] = RoactAnimate(self.state._rippleSize, TweenInfo.new(0.15), UDim2.fromScale(1.75, 1.75))
-		sequence[5] = RoactAnimate(self.state._rippleTransparency, TweenInfo.new(0.15), 1)
+		sequence[4] = RoactAnimate(self.state._rippleSize, SIZE_TWEEN_DATA, UDim2.fromScale(1.75, 1.75))
+		sequence[5] = RoactAnimate(self.state._rippleTransparency, SIZE_TWEEN_DATA, 1)
 
 		local animation = table.create(4)
-		animation[1] = RoactAnimate(self.state._togglePosition, TweenInfo.new(0.225), newTogglePosition)
-		animation[2] = RoactAnimate(self.state._toggleColor, TweenInfo.new(0.225), newToggleColor)
-		animation[3] = RoactAnimate(self.state._trackColor, TweenInfo.new(0.225), newTrackColor)
+		animation[1] = RoactAnimate(self.state._togglePosition, SWITCH_TWEEN_DATA, newTogglePosition)
+		animation[2] = RoactAnimate(self.state._toggleColor, SWITCH_TWEEN_DATA, newToggleColor)
+		animation[3] = RoactAnimate(self.state._trackColor, SWITCH_TWEEN_DATA, newTrackColor)
 		animation[4] = RoactAnimate.Sequence(sequence)
 
 		RoactAnimate.Parallel(animation):Start()

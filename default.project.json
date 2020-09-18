@@ -1,29 +1,18 @@
 {
-  "name": "RoactMaterial2",
-  "tree": {
-    "$className": "DataModel",
+	"name": "RoactMaterial2",
+	"tree": {
+		"$className": "DataModel",
 
-    "ReplicatedStorage": {
-      "$className": "ReplicatedStorage",
-      "RoactMaterial": {
-        "$path": "src/RoactMaterial"
-      },
+		"ReplicatedStorage": {
+			"$className": "ReplicatedStorage",
 
-      "RoactAnimate": {
-        "$path": "src/RoactAnimate"
-      },
+			"RoactAnimate": {"$path": "src/RoactAnimate"},
+			"RoactMaterial": {"$path": "src/RoactMaterial"},
 
-      "Roact": {
-        "$path": "modules/roact/src"
-      },
-
-      "Promise": {
-        "$path": "modules/roblox-lua-promise/lib"
-      },
-
-      "t": {
-        "$path": "modules/t/lib"
-      }
-    }
-  }
+			"BoatTween": {"$path": "modules/BoatTween/src/BoatTween"},
+			"Promise": {"$path": "modules/roblox-lua-promise/lib"},
+			"Roact": {"$path": "modules/roact/src"},
+			"t": {"$path": "modules/t/lib"}
+		}
+	}
 }

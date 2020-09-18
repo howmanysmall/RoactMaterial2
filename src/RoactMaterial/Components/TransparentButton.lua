@@ -13,10 +13,11 @@ local RIPPLE_TRIGGER_INPUT_TYPES = {
 	Enum.UserInputType.Touch,
 }
 
-local COLOR_TWEEN_INFO = TweenInfo.new(
-	0.15,
-	Enum.EasingStyle.Linear
-)
+local COLOR_TWEEN_DATA = {
+	Time = 0.15,
+	EasingStyle = "Standard",
+	StepType = "Heartbeat",
+}
 
 local TransparentButton = Roact.PureComponent:extend("MaterialTransparentButton")
 TransparentButton.defaultProps = {
@@ -49,7 +50,7 @@ function TransparentButton:willUpdate(_, nextState)
 		goalColor = self.props.BackgroundColor3 or ThemeAccessor.Get(self, self.props.Flat and "FlatButtonColor" or "ButtonColor", Color3.new(1, 1, 1))
 	end
 
-	RoactAnimate(self.state._bgColor, COLOR_TWEEN_INFO, goalColor):Start()
+	RoactAnimate(self.state._bgColor, COLOR_TWEEN_DATA, goalColor):Start()
 end
 
 local function _scheduleHitTest(self, rbx)
