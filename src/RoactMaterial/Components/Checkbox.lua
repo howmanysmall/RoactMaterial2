@@ -81,7 +81,7 @@ function Checkbox:render()
 			Size = FULL_UDIM2,
 			Text = "",
 
-			[Roact.Event.MouseButton1Click] = function()
+			[Roact.Event.Activated] = function()
 				self.props.OnChecked(not self.props.Checked)
 			end,
 		}, {

@@ -26,7 +26,7 @@ function RadioGroup:render()
 			Text = "",
 			Size = UDim2.new(1, 0, 0, 24),
 
-			[Roact.Event.MouseButton1Click] = function()
+			[Roact.Event.Activated] = function()
 				if self.props.CurrentIdChanged then
 					self.props.CurrentIdChanged(id)
 				end

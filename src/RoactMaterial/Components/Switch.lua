@@ -72,7 +72,7 @@ function Switch:render()
 		Position = self.props.Position,
 		ZIndex = self.props.ZIndex,
 
-		[Roact.Event.MouseButton1Click] = function()
+		[Roact.Event.Activated] = function()
 			self.props.OnChecked(not self.props.Checked)
 		end,
 	}, {

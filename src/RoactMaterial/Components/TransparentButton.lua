@@ -98,7 +98,7 @@ function TransparentButton:render()
 			Size = UDim2.fromScale(1, 1),
 			Text = "",
 			ZIndex = 2,
-			[Roact.Event.MouseButton1Click] = self.props.OnClicked,
+			[Roact.Event.Activated] = self.props.OnClicked,
 			[Roact.Ref] = function(rbx)
 				self._rbx = rbx
 			end,
