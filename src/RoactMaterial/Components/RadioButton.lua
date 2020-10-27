@@ -76,7 +76,7 @@ function RadioButton:render()
 			ZIndex = 2,
 			Size = UDim2.fromScale(1, 1),
 			Text = "",
-			[Roact.Event.MouseButton1Click] = self.props.OnClicked,
+			[Roact.Event.Activated] = self.props.OnClicked,
 		}, {
 			UncheckedIcon = Roact.createElement(Icon, {
 				Size = UDim2.fromScale(1, 1),
