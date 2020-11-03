@@ -76,7 +76,7 @@ function Slider:init(props)
 	self.sliderRef = Roact.createRef()
 end
 
-function Slider:didMount(props)
+function Slider:didMount()
 	table.insert(self.connections,
 		UserInputService.InputChanged:Connect(function(inputObject)
 			if self.state.mouseDown and (inputObject.UserInputType == Enum.UserInputType.MouseMovement or inputObject.UserInputType == Enum.UserInputType.Touch) then
