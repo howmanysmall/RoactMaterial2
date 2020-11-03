@@ -34,9 +34,11 @@ Slider.defaultProps = {
 function Slider:init(props)
 	self.connections = {}
 	
+	local currentValue = props.Value or props.Min
+	local x = (currentValue - props.Min) / (props.Max - props.Min)
 	self:setState({
-		backFrameSize = RoactAnimate.Value.new(UDim2.fromScale(0, 1)),
-		sliderPosition = RoactAnimate.Value.new(UDim2.fromScale(0, 0.5)),
+		backFrameSize = RoactAnimate.Value.new(UDim2.fromScale(x, 1)),
+		sliderPosition = RoactAnimate.Value.new(UDim2.fromScale(x, 0.5)),
 		sliderSize = RoactAnimate.Value.new(UDim2.fromScale(2, 2)),
 		mouseOnSize = RoactAnimate.Value.new(UDim2.new()),
 		mouseDownSize = RoactAnimate.Value.new(UDim2.new()),
@@ -45,10 +47,10 @@ function Slider:init(props)
 		mouseOver = false,
 		mouseDown = false,
 
-		currentValue = props.Value or props.Min,
+		currentValue = currentValue,
+		textValue = currentValue * props.ValueLabelMultiply,
 		gridVisible = props.Grid,
 	})
-	self.state.textValue = self.state.currentValue * props.ValueLabelMultiply
 	
 	self.onSliderInputBegan = function(_, inputObject)
 		if not self.props.Disabled then
