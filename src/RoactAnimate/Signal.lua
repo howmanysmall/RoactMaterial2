@@ -16,8 +16,9 @@ function Signal:Connect(listener)
 
 	return {
 		Disconnect = function()
-			for i = #self._listeners, 1, -1 do
-				if self._listeners[i] == listener then
+			local listeners = self._listeners
+			for i = #listeners, 1, -1 do
+				if listeners[i] == listener then
 					table.remove(self._listeners, i)
 					break
 				end
