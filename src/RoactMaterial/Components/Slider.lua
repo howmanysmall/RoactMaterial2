@@ -33,7 +33,7 @@ Slider.defaultProps = {
 
 function Slider:init(props)
 	self.connections = {}
-	
+
 	local currentValue = props.Value or props.Min
 	local x = (currentValue - props.Min) / (props.Max - props.Min)
 	self:setState({
@@ -51,7 +51,7 @@ function Slider:init(props)
 		textValue = currentValue * props.ValueLabelMultiply,
 		gridVisible = props.Grid,
 	})
-	
+
 	self.onSliderInputBegan = function(_, inputObject)
 		if not self.props.Disabled then
 			if inputObject.UserInputType == Enum.UserInputType.MouseMovement then
@@ -65,6 +65,7 @@ function Slider:init(props)
 			end
 		end
 	end
+
 	self.onSliderInputEnded = function(_, inputObject)
 		if inputObject.UserInputType == Enum.UserInputType.MouseMovement then
 			self:setState({
@@ -111,7 +112,7 @@ function Slider:didMount()
 end
 
 function Slider:willUnmount()
-	for i, connection in pairs(self.connections) do
+	for i, connection in ipairs(self.connections) do
 		connection:Disconnect()
 		self.connections[i] = nil
 	end
@@ -204,7 +205,7 @@ function Slider:willUpdate(nextProps, nextState)
 	if self.state.currentValue ~= nextState.currentValue then
 		length += 1
 		local currentValue = nextState.currentValue
-		
+
 		local x = (currentValue - nextProps.Min) / (nextProps.Max - nextProps.Min)
 
 		local sequence = table.create(2)
@@ -232,13 +233,9 @@ function Slider:render()
 			BackgroundTransparency = 1,
 			Position = UDim2.fromScale(0, 0.5),
 			Size = UDim2.new(1, 0, 1, 10),
-			
-			[Roact.Event.InputBegan] = function(...)
-				self.onSliderInputBegan(...)
-			end,
-			[Roact.Event.InputEnded] = function(...)
-				self.onSliderInputEnded(...)
-			end
+
+			[Roact.Event.InputBegan] = self.onSliderInputBegan,
+			[Roact.Event.InputEnded] = self.onSliderInputEnded,
 		}),
 
 		BackFrame = Roact.createElement(RoactAnimate.Frame, {
@@ -264,10 +261,11 @@ function Slider:render()
 			ZIndex = self.props.ZIndex + 3,
 			Image = "rbxassetid://1217158727",
 			ImageColor3 = ThemeAccessor.Get(self, "SliderPrimaryColor3"),
-			
+
 			[Roact.Event.InputBegan] = function(...)
 				self.onSliderInputBegan(...)
 			end,
+
 			[Roact.Event.InputEnded] = function(...)
 				self.onSliderInputEnded(...)
 			end
@@ -312,7 +310,7 @@ function Slider:render()
 					AnchorPoint = Vector2.new(0.5, 0),
 					BackgroundTransparency = 1,
 					Position = UDim2.fromScale(0.5, 0),
-					Size = UDim2.new(0.8, 0, 0.6, 0),
+					Size = UDim2.fromScale(0.8, 0.6),
 					Font = Enum.Font.SourceSans,
 					TextColor3 = ThemeAccessor.Get(self, "SliderValueColor3"),
 					Text = self.state.textValue,
