@@ -19,7 +19,7 @@ function Signal:Connect(listener)
 			local listeners = self._listeners
 			for i = #listeners, 1, -1 do
 				if listeners[i] == listener then
-					table.remove(self._listeners, i)
+					table.remove(listeners, i)
 					break
 				end
 			end
