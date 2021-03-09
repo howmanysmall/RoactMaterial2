@@ -1,7 +1,7 @@
 local Roact = require(script.Parent.Parent.Parent.Roact)
 local RoactMaterial = require(script.Parent.Parent)
 
-local ExampleComponent = Roact.Component:extend("CheckExampleComponent")
+local ExampleComponent = Roact.PureComponent:extend("CheckExampleComponent")
 
 function ExampleComponent:init()
 	self:setState({
@@ -15,13 +15,13 @@ function ExampleComponent:render()
 		Theme = RoactMaterial.Themes.Dark,
 	}, {
 		Backing = Roact.createElement("Frame", {
-			Size = UDim2.fromScale(1, 1),
 			BackgroundColor3 = Color3.new(1, 1, 1),
 			BorderSizePixel = 0,
+			Size = UDim2.fromScale(1, 1),
 		}, {
 			Roact.createElement("UIGridLayout", {
-				CellSize = UDim2.fromOffset(24, 24),
 				CellPadding = UDim2.fromOffset(10, 10),
+				CellSize = UDim2.fromOffset(24, 24),
 				HorizontalAlignment = Enum.HorizontalAlignment.Center,
 				VerticalAlignment = Enum.VerticalAlignment.Center,
 			}),

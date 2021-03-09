@@ -1,7 +1,7 @@
 local Roact = require(script.Parent.Parent.Parent.Roact)
 local RoactMaterial = require(script.Parent.Parent)
 
-local ExampleComponent = Roact.Component:extend("SwitchExampleComponent")
+local ExampleComponent = Roact.PureComponent:extend("SwitchExampleComponent")
 
 function ExampleComponent:init()
 	self:setState({
@@ -15,13 +15,13 @@ function ExampleComponent:render()
 		Theme = RoactMaterial.Themes.Dark,
 	}, {
 		MainFrame = Roact.createElement("Frame", {
-			Size = UDim2.fromScale(1, 1),
 			BackgroundColor3 = Color3.new(1, 1, 1),
 			BorderSizePixel = 0,
+			Size = UDim2.fromScale(1, 1),
 		}, {
-			Roact.createElement("UIGridLayout", {
-				CellSize = UDim2.fromOffset(36, 24),
+			UIGridLayout = Roact.createElement("UIGridLayout", {
 				CellPadding = UDim2.fromOffset(10, 10),
+				CellSize = UDim2.fromOffset(36, 24),
 				HorizontalAlignment = Enum.HorizontalAlignment.Center,
 				VerticalAlignment = Enum.VerticalAlignment.Center,
 			}),

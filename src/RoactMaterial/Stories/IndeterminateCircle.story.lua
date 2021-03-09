@@ -6,9 +6,9 @@ local function ExampleComponent()
 		Theme = RoactMaterial.Themes.Light,
 	}, {
 		MainFrame = Roact.createElement("Frame", {
-			Size = UDim2.fromScale(1, 1),
 			BackgroundColor3 = Color3.new(1, 1, 1),
 			BorderSizePixel = 0,
+			Size = UDim2.fromScale(1, 1),
 		}, {
 			IndeterminateCircle = Roact.createElement(RoactMaterial.IndeterminateCircle, {
 				AnchorPoint = Vector2.new(0.5, 0.5),
@@ -17,8 +17,8 @@ local function ExampleComponent()
 
 			IndeterminateCircle2 = Roact.createElement(RoactMaterial.IndeterminateCircle, {
 				AnchorPoint = Vector2.new(0.5, 0.5),
-				Position = UDim2.fromScale(0.5, 0.7),
 				AnimationSpeed = 3,
+				Position = UDim2.fromScale(0.5, 0.7),
 			}),
 		}),
 	})

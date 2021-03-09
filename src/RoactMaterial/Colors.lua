@@ -305,11 +305,9 @@ function Colors.Offset(color, steps)
 
 	local newLevel
 	if isAccent then
-		local newIndex = accentIndices[level] + steps
-		newLevel = accentSteps[newIndex < 1 and 1 or newIndex > 4 and 4 or newIndex]
+		newLevel = accentSteps[math.clamp(accentIndices[level] + steps, 1, 4)]
 	else
-		local newIndex = colorIndices[level] + steps
-		newLevel = colorSteps[newIndex < 1 and 1 or newIndex > 10 and 10 or newIndex]
+		newLevel = colorSteps[math.clamp(colorIndices[level] + steps, 1, 10)]
 	end
 
 	return Colors[name .. newLevel]

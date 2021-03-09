@@ -5,13 +5,13 @@ return function(Target)
 	local Tree = Roact.mount(Roact.createElement(RoactMaterial.ThemeProvider, {
 		Theme = RoactMaterial.Themes.Dark,
 	}, table.create(1, Roact.createElement("Frame", {
-		Size = UDim2.fromScale(1, 1),
 		BackgroundColor3 = Color3.new(1, 1, 1),
 		BorderSizePixel = 0,
+		Size = UDim2.fromScale(1, 1),
 	}, {
-		Roact.createElement("UIGridLayout", {
-			CellSize = UDim2.fromOffset(24, 24),
+		UIGridLayout = Roact.createElement("UIGridLayout", {
 			CellPadding = UDim2.fromOffset(10, 10),
+			CellSize = UDim2.fromOffset(24, 24),
 			HorizontalAlignment = Enum.HorizontalAlignment.Center,
 			VerticalAlignment = Enum.VerticalAlignment.Center,
 		}),

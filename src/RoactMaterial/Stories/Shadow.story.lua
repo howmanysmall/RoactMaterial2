@@ -1,15 +1,17 @@
 local Roact = require(script.Parent.Parent.Parent.Roact)
 local RoactMaterial = require(script.Parent.Parent)
-local Promise = require(script.Parent.Parent.Parent.Promise)
+local Scheduler = require(script.Parent.Parent.Utility.Scheduler)
 
 local ELEVATIONS = {1, 2, 3, 4, 6, 8, 9, 12, 16}
 
-local ParentComponent = Roact.Component:extend("ParentComponent")
+local ParentComponent = Roact.PureComponent:extend("ParentComponent")
 
 function ParentComponent:init()
 	self:setState({
-		Elevation = 1,
+		elevation = 1,
 	})
+
+	self.isMounted = false
 end
 
 function ParentComponent:render()
@@ -19,32 +21,36 @@ function ParentComponent:render()
 		TextLabel = Roact.createElement("TextLabel", {
 			BackgroundColor3 = Color3.new(1, 1, 1),
 			BorderSizePixel = 0,
-			Text = self.state.Elevation,
-			ZIndex = 2,
-			Size = UDim2.fromScale(1, 1),
 			LayoutOrder = math.huge,
+			Size = UDim2.fromScale(1, 1),
+			Text = self.state.elevation,
+			ZIndex = 2,
 		}),
 
 		Shadow = Roact.createElement(RoactMaterial.Shadow, {
-			Elevation = self.state.Elevation,
+			Elevation = self.state.elevation,
 		}),
 	})
 end
 
 function ParentComponent:didMount()
-	self.Promise = Promise.Try(function()
+	self.isMounted = true
+	Scheduler.FastSpawn(function()
 		while true do
-			Promise.Delay(1):Await()
+			Scheduler.Wait(1)
+			if not self.isMounted then
+				break
+			end
+
 			self:setState({
-				Elevation = ELEVATIONS[math.random(#ELEVATIONS)],
+				elevation = ELEVATIONS[math.random(#ELEVATIONS)],
 			})
 		end
 	end)
 end
 
 function ParentComponent:willUnmount()
-	self.Promise:Cancel()
-	self.Promise = nil
+	self.isMounted = false
 end
 
 return function(Target)
@@ -66,29 +72,29 @@ return function(Target)
 			TextLabel = Roact.createElement("TextLabel", {
 				BackgroundColor3 = Color3.new(1, 1, 1),
 				BorderSizePixel = 0,
-				Text = tostring(Elevation),
 				Font = Enum.Font.SourceSans,
-				TextSize = 24,
 				Size = UDim2.fromScale(1, 1),
+				Text = tostring(Elevation),
+				TextSize = 24,
 				ZIndex = 2,
 			}),
 		})
 	end
 
 	table.insert(ElevationFrames, Roact.createElement("UIGridLayout", {
-		CellSize = UDim2.fromOffset(150, 150),
 		CellPadding = UDim2.fromOffset(25, 25),
+		CellSize = UDim2.fromOffset(150, 150),
 		HorizontalAlignment = Enum.HorizontalAlignment.Center,
-		VerticalAlignment = Enum.VerticalAlignment.Center,
 		SortOrder = Enum.SortOrder.LayoutOrder,
+		VerticalAlignment = Enum.VerticalAlignment.Center,
 	}))
 
 	table.insert(ElevationFrames, Roact.createElement(ParentComponent))
 
 	local Tree = Roact.mount(Roact.createElement("Frame", {
-		Size = UDim2.fromScale(1, 1),
 		BackgroundColor3 = Color3.new(1, 1, 1),
 		BorderSizePixel = 0,
+		Size = UDim2.fromScale(1, 1),
 	}, ElevationFrames), Target)
 
 	return function()

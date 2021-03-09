@@ -6,9 +6,9 @@ local function ExampleComponent()
 		Theme = RoactMaterial.Themes.Dark,
 	}, {
 		MainFrame = Roact.createElement("Frame", {
-			Size = UDim2.fromScale(1, 1),
 			BackgroundColor3 = Color3.new(1, 1, 1),
 			BorderSizePixel = 0,
+			Size = UDim2.fromScale(1, 1),
 		}, {
 			Slider = Roact.createElement(RoactMaterial.Slider, {
 				AnchorPoint = Vector2.new(0.5, 0.5),
