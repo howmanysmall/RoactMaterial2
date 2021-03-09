@@ -9,34 +9,34 @@ local TOGGLE_SHADOW_IMAGE = "rbxassetid://1332905573"
 
 local Switch = Roact.PureComponent:extend("MaterialSwitch")
 Switch.defaultProps = {
+	AnchorPoint = Vector2.new(0.5, 0.5),
 	Checked = false,
 	OnChecked = print,
 	Position = UDim2.fromScale(0.5, 0.5),
-	AnchorPoint = Vector2.new(0.5, 0.5),
 	ZIndex = 1,
 }
 
 function Switch:init(props)
 	self:setState({
-		_trackColor = RoactAnimate.Value.new(ThemeAccessor.Get(self, props.Checked and "SwitchTrackOnColor" or "SwitchTrackOffColor")),
-		_toggleColor = RoactAnimate.Value.new(ThemeAccessor.Get(self, props.Checked and "SwitchToggleOnColor" or "SwitchToggleOffColor")),
-		_togglePosition = RoactAnimate.Value.new(props.Checked and UDim2.new(1, -10, 0.5, 0) or UDim2.new(0, 10, 0.5, 0)),
+		_rippleColor = RoactAnimate.Value.new(Color3.new()),
 		_rippleSize = RoactAnimate.Value.new(UDim2.new()),
 		_rippleTransparency = RoactAnimate.Value.new(0.6),
-		_rippleColor = RoactAnimate.Value.new(Color3.new()),
+		_toggleColor = RoactAnimate.Value.new(ThemeAccessor.Get(self, props.Checked and "SwitchToggleOnColor" or "SwitchToggleOffColor")),
+		_togglePosition = RoactAnimate.Value.new(props.Checked and UDim2.new(1, -10, 0.5, 0) or UDim2.new(0, 10, 0.5, 0)),
+		_trackColor = RoactAnimate.Value.new(ThemeAccessor.Get(self, props.Checked and "SwitchTrackOnColor" or "SwitchTrackOffColor")),
 	})
 end
 
 local SIZE_TWEEN_DATA = {
-	Time = 0.15,
 	EasingStyle = "Deceleration",
 	StepType = "Heartbeat",
+	Time = 0.15,
 }
 
 local SWITCH_TWEEN_DATA = {
-	Time = 0.225,
 	EasingStyle = "Deceleration",
 	StepType = "Heartbeat",
+	Time = 0.225,
 }
 
 function Switch:willUpdate(nextProps)
@@ -67,9 +67,9 @@ function Switch:render()
 	return Roact.createElement("TextButton", {
 		AnchorPoint = self.props.AnchorPoint,
 		BackgroundTransparency = 1,
-		Text = "",
-		Size = UDim2.fromOffset(36, 20),
 		Position = self.props.Position,
+		Size = UDim2.fromOffset(36, 20),
+		Text = "",
 		ZIndex = self.props.ZIndex,
 
 		[Roact.Event.Activated] = function()
@@ -77,41 +77,41 @@ function Switch:render()
 		end,
 	}, {
 		Track = Roact.createElement(RoactAnimate.ImageLabel, {
-			BackgroundTransparency = 1,
-			Size = UDim2.new(1, 0, 0, 12),
-			Position = UDim2.fromScale(0, 0.5),
 			AnchorPoint = Vector2.new(0, 0.5),
+			BackgroundTransparency = 1,
 			Image = CIRCLE_IMAGE,
 			ImageColor3 = self.state._trackColor,
+			Position = UDim2.fromScale(0, 0.5),
 			ScaleType = Enum.ScaleType.Slice,
+			Size = UDim2.new(1, 0, 0, 12),
 			SliceCenter = Rect.new(128, 128, 128, 128),
 		}),
 
 		SwitchToggle = Roact.createElement(RoactAnimate.ImageLabel, {
-			BackgroundTransparency = 1,
-			Size = UDim2.fromOffset(24, 24),
 			AnchorPoint = Vector2.new(0.5, 0.5),
-			Position = self.state._togglePosition,
+			BackgroundTransparency = 1,
 			Image = TOGGLE_SHADOW_IMAGE,
 			ImageTransparency = 0.8,
+			Position = self.state._togglePosition,
+			Size = UDim2.fromOffset(24, 24),
 			ZIndex = 2,
 		}, {
 			Toggle = Roact.createElement(RoactAnimate.ImageLabel, {
 				BackgroundTransparency = 1,
-				Size = UDim2.fromOffset(20, 20),
-				Position = UDim2.fromOffset(2, 1),
 				Image = CIRCLE_IMAGE,
 				ImageColor3 = self.state._toggleColor,
+				Position = UDim2.fromOffset(2, 1),
+				Size = UDim2.fromOffset(20, 20),
 				ZIndex = 2,
 			}),
 
 			Ripple = Roact.createElement(RoactAnimate.ImageLabel, {
 				AnchorPoint = Vector2.new(0.5, 0.5),
-				Position = UDim2.fromScale(0.5, 0.5),
 				BackgroundTransparency = 1,
 				Image = CIRCLE_IMAGE,
 				ImageColor3 = self.state._rippleColor,
 				ImageTransparency = self.state._rippleTransparency,
+				Position = UDim2.fromScale(0.5, 0.5),
 				Size = self.state._rippleSize,
 				ZIndex = 1,
 			}),

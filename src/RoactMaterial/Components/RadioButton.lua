@@ -23,15 +23,15 @@ function RadioButton:init(props)
 end
 
 local TRANSPARENCY_TWEEN_DATA = {
-	Time = 0.225,
 	EasingStyle = "Standard",
 	StepType = "Heartbeat",
+	Time = 0.225,
 }
 
 local RIPPLE_TWEEN_DATA = {
-	Time = 0.15,
 	EasingStyle = "Deceleration",
 	StepType = "Heartbeat",
+	Time = 0.15,
 }
 
 function RadioButton:willUpdate(nextProps)
@@ -67,23 +67,23 @@ function RadioButton:render()
 
 	return Roact.createElement("Frame", {
 		BackgroundTransparency = 1,
-		Size = UDim2.fromOffset(24, 24),
 		Position = self.props.Position,
+		Size = UDim2.fromOffset(24, 24),
 		ZIndex = self.props.ZIndex,
 	}, {
 		InputHandler = Roact.createElement("TextButton", {
 			BackgroundTransparency = 1,
-			ZIndex = 2,
 			Size = UDim2.fromScale(1, 1),
 			Text = "",
+			ZIndex = 2,
 			[Roact.Event.Activated] = self.props.OnClicked,
 		}, {
 			UncheckedIcon = Roact.createElement(Icon, {
-				Size = UDim2.fromScale(1, 1),
-				Resolution = 48,
 				Icon = UNCHECKED_ICON,
 				IconColor3 = outlineColor.Color,
 				IconTransparency = self.state._outlineTransparency,
+				Resolution = 48,
+				Size = UDim2.fromScale(1, 1),
 			}),
 
 			CheckedIcon = Roact.createElement(Icon, {
@@ -98,11 +98,11 @@ function RadioButton:render()
 
 		Ripple = Roact.createElement(RoactAnimate.ImageLabel, {
 			AnchorPoint = Vector2.new(0.5, 0.5),
-			Position = UDim2.fromScale(0.5, 0.5),
 			BackgroundTransparency = 1,
 			Image = RIPPLE_IMAGE,
 			ImageColor3 = ThemeAccessor.Get(self, "PrimaryColor"),
 			ImageTransparency = self.state._rippleTransparency,
+			Position = UDim2.fromScale(0.5, 0.5),
 			Size = self.state._rippleSize,
 			ZIndex = 1,
 		}),

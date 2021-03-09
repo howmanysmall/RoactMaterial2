@@ -9,19 +9,19 @@ local ThemeAccessor = require(script.Parent.Parent.Utility.ThemeAccessor)
 local Roact = Configuration.Roact
 local RoactAnimate = Configuration.RoactAnimate
 
-local Menu = Roact.Component:extend("MaterialMenu")
+local Menu = Roact.PureComponent:extend("MaterialMenu")
 Menu.Divider = newproxy(false)
 
 local MENU_TWEEN_DATA_OPENING = {
-	Time = 0.2,
 	EasingStyle = "Deceleration",
 	StepType = "Heartbeat",
+	Time = 0.2,
 }
 
 local MENU_TWEEN_DATA_CLOSING = {
-	Time = 0.2,
 	EasingStyle = "Acceleration",
 	StepType = "Heartbeat",
+	Time = 0.2,
 }
 
 function Menu:init()
@@ -66,16 +66,16 @@ function Menu:render()
 	for index, option in ipairs(self.props.Options) do
 		if option == Menu.Divider then
 			contents["Divider_" .. index] = Roact.createElement("Frame", {
-				Size = UDim2.new(1, 0, 0, 7),
-				LayoutOrder = index,
 				BackgroundTransparency = 1,
+				LayoutOrder = index,
+				Size = UDim2.new(1, 0, 0, 7),
 			}, table.create(1, Roact.createElement("Frame", {
-				Size = UDim2.new(1, 0, 0, 1),
-				Position = UDim2.fromScale(0, 0.5),
 				AnchorPoint = Vector2.new(0, 0.5),
-				BackgroundTransparency = 0.85,
 				BackgroundColor3 = ThemeAccessor.Get(self, "InverseBackgroundColor"),
+				BackgroundTransparency = 0.85,
 				BorderSizePixel = 0,
+				Position = UDim2.fromScale(0, 0.5),
+				Size = UDim2.new(1, 0, 0, 1),
 			})))
 		else
 			local buttonContent, key
@@ -83,9 +83,9 @@ function Menu:render()
 				key = option
 				buttonContent = table.create(1, Roact.createElement(TextView, {
 					Class = "Body1",
-					Text = option,
-					Size = UDim2.new(1, -24, 1, 0),
 					Position = UDim2.fromOffset(24, 0),
+					Size = UDim2.new(1, -24, 1, 0),
+					Text = option,
 					TextXAlignment = Enum.TextXAlignment.Left,
 				}))
 			elseif type(option) == "table" then
@@ -95,8 +95,8 @@ function Menu:render()
 				if type(optionContent) == "string" then
 					buttonContent = Roact.createElement(TextView, {
 						Class = "Body1",
-						Text = optionContent,
 						Size = UDim2.new(1, -24, 1, 0),
+						Text = optionContent,
 						TextXAlignment = Enum.TextXAlignment.Left,
 					})
 				else
@@ -106,26 +106,26 @@ function Menu:render()
 
 			contents["Option_" .. key] = Roact.createElement(Button, {
 				Flat = true,
-				Size = UDim2.new(1, 0, 0, 32),
-				Text = "",
-				LayoutOrder = index,
-				InkColor3 = Color3.new(0.6, 0.6, 0.6),
 				HoverColor3 = Color3.new(0.8, 0.8, 0.8),
-				PressColor3 = Color3.new(0.7, 0.7, 0.7),
-
+				InkColor3 = Color3.new(0.6, 0.6, 0.6),
+				LayoutOrder = index,
 				OnClicked = function()
 					self.props.OnOptionSelected(option)
 				end,
+
+				PressColor3 = Color3.new(0.7, 0.7, 0.7),
+				Size = UDim2.new(1, 0, 0, 32),
+				Text = "",
 			}, buttonContent)
 		end
 	end
 
 	return Roact.createElement(Card, {
-		Elevation = self.props.Open and 2 or 0,
-		ZIndex = self.props.ZIndex,
-		Size = self.state._size,
-		Position = self.props.Position,
 		AnchorPoint = self.props.AnchorPoint,
+		Elevation = self.props.Open and 2 or 0,
+		Position = self.props.Position,
+		Size = self.state._size,
+		ZIndex = self.props.ZIndex,
 	}, contents)
 end
 

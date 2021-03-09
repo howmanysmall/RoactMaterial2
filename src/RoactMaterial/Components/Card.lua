@@ -6,29 +6,29 @@ local Roact = Configuration.Roact
 local RoactAnimate = Configuration.RoactAnimate
 local t = Configuration.t
 
-local Card = Roact.Component:extend("MaterialCard")
+local Card = Roact.PureComponent:extend("MaterialCard")
 Card.validateProps = t.interface({
 	AnchorPoint = t.optional(t.Vector2),
+	Elevation = t.optional(t.integer),
 	Position = t.optional(t.UDim2),
 	Size = t.optional(t.UDim2),
 	ZIndex = t.optional(t.integer),
-	Elevation = t.optional(t.integer),
 })
 
 function Card:render()
 	return Roact.createElement(RoactAnimate.Frame, {
-		BackgroundTransparency = 1,
-		ZIndex = self.props.ZIndex,
-		Size = self.props.Size,
 		AnchorPoint = self.props.AnchorPoint,
+		BackgroundTransparency = 1,
 		Position = self.props.Position,
+		Size = self.props.Size,
+		ZIndex = self.props.ZIndex,
 	}, {
 		Container = Roact.createElement(RoactAnimate.Frame, {
 			BackgroundColor3 = ThemeAccessor.Get(self, "BackgroundColor"),
 			BorderSizePixel = 0,
+			ClipsDescendants = true,
 			Size = UDim2.fromScale(1, 1),
 			ZIndex = 2,
-			ClipsDescendants = true,
 		}, self.props[Roact.Children]),
 
 		Shadow = Roact.createElement(Shadow, {

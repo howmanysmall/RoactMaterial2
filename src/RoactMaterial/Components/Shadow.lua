@@ -205,9 +205,9 @@ local SHADOW_SETTINGS = {
 }
 
 local SHADOW_TWEEN_DATA = {
-	Time = 0.1,
 	EasingStyle = "Deceleration",
 	StepType = "Heartbeat",
+	Time = 0.1,
 }
 
 local Shadow = Roact.PureComponent:extend("MaterialShadow")
@@ -216,19 +216,7 @@ Shadow.defaultProps = {
 }
 
 Shadow.validateProps = t.interface({
-	Elevation = t.union(
-		t.literal(0),
-		t.literal(1),
-		t.literal(2),
-		t.literal(3),
-		t.literal(4),
-		t.literal(6),
-		t.literal(8),
-		t.literal(9),
-		t.literal(12),
-		t.literal(16)
-	),
-
+	Elevation = t.literal(0, 1, 2, 3, 4, 6, 8, 9, 12, 16),
 	ZIndex = t.optional(t.integer),
 })
 
@@ -237,15 +225,15 @@ function Shadow:init(props)
 	local shadowProps = SHADOW_SETTINGS[props.Elevation]
 
 	self:setState({
-		_umbraTransparency = RoactAnimate.Value.new(shadowProps.Umbra.Transparency),
-		_umbraSize = RoactAnimate.Value.new(UDim2.new(1, shadowProps.Umbra.Blur, 1, shadowProps.Umbra.Blur)),
-		_umbraPosition = RoactAnimate.Value.new(CENTER_UDIM2 + (shadowProps.Umbra.Offset or EMPTY_UDIM2)),
-		_penumbraTransparency = RoactAnimate.Value.new(shadowProps.Penumbra.Transparency),
-		_penumbraSize = RoactAnimate.Value.new(UDim2.new(1, shadowProps.Penumbra.Blur, 1, shadowProps.Penumbra.Blur)),
-		_penumbraPosition = RoactAnimate.Value.new(CENTER_UDIM2 + (shadowProps.Penumbra.Offset or EMPTY_UDIM2)),
-		_ambientTransparency = RoactAnimate.Value.new(shadowProps.Ambient.Transparency),
-		_ambientSize = RoactAnimate.Value.new(UDim2.new(1, shadowProps.Ambient.Blur, 1, shadowProps.Ambient.Blur)),
 		_ambientPosition = RoactAnimate.Value.new(CENTER_UDIM2 + (shadowProps.Ambient.Offset or EMPTY_UDIM2)),
+		_ambientSize = RoactAnimate.Value.new(UDim2.new(1, shadowProps.Ambient.Blur, 1, shadowProps.Ambient.Blur)),
+		_ambientTransparency = RoactAnimate.Value.new(shadowProps.Ambient.Transparency),
+		_penumbraPosition = RoactAnimate.Value.new(CENTER_UDIM2 + (shadowProps.Penumbra.Offset or EMPTY_UDIM2)),
+		_penumbraSize = RoactAnimate.Value.new(UDim2.new(1, shadowProps.Penumbra.Blur, 1, shadowProps.Penumbra.Blur)),
+		_penumbraTransparency = RoactAnimate.Value.new(shadowProps.Penumbra.Transparency),
+		_umbraPosition = RoactAnimate.Value.new(CENTER_UDIM2 + (shadowProps.Umbra.Offset or EMPTY_UDIM2)),
+		_umbraSize = RoactAnimate.Value.new(UDim2.new(1, shadowProps.Umbra.Blur, 1, shadowProps.Umbra.Blur)),
+		_umbraTransparency = RoactAnimate.Value.new(shadowProps.Umbra.Transparency),
 	})
 end
 
@@ -267,47 +255,46 @@ end
 
 function Shadow:render()
 	return Roact.createElement("Frame", {
-		Name = "ShadowRoot",
-		ZIndex = self.props.ZIndex,
 		BackgroundTransparency = 1,
 		Size = UDim2.fromScale(1, 1),
+		ZIndex = self.props.ZIndex,
 		[Roact.Ref] = function(rbx)
 			self._rbx = rbx
 		end,
 	}, {
 		Umbra = Roact.createElement(RoactAnimate.ImageLabel, {
+			AnchorPoint = Vector2.new(0.5, 0.5),
 			BackgroundTransparency = 1,
 			Image = SHADOW_IMAGE,
 			ImageColor3 = Color3.new(),
 			ImageTransparency = self.state._umbraTransparency,
-			Size = self.state._umbraSize,
-			AnchorPoint = Vector2.new(0.5, 0.5),
 			Position = self.state._umbraPosition,
 			ScaleType = Enum.ScaleType.Slice,
+			Size = self.state._umbraSize,
 			SliceCenter = Rect.new(10, 10, 118, 118),
 		}),
 
 		Penumbra = Roact.createElement(RoactAnimate.ImageLabel, {
+			AnchorPoint = Vector2.new(0.5, 0.5),
 			BackgroundTransparency = 1,
 			Image = SHADOW_IMAGE,
 			ImageColor3 = Color3.new(),
 			ImageTransparency = self.state._penumbraTransparency,
-			Size = self.state._penumbraSize,
-			AnchorPoint = Vector2.new(0.5, 0.5),
 			Position = self.state._penumbraPosition,
 			ScaleType = Enum.ScaleType.Slice,
+			Size = self.state._penumbraSize,
 			SliceCenter = Rect.new(10, 10, 118, 118),
 		}),
 
 		Ambient = Roact.createElement(RoactAnimate.ImageLabel, {
+			AnchorPoint = Vector2.new(0.5, 0.5),
 			BackgroundTransparency = 1,
 			Image = SHADOW_IMAGE,
 			ImageColor3 = Color3.new(),
 			ImageTransparency = self.state._ambientTransparency,
-			Size = self.state._ambientSize,
-			AnchorPoint = Vector2.new(0.5, 0.5),
 			Position = self.state._ambientPosition,
 			ScaleType = Enum.ScaleType.Slice,
+			Size = self.state._ambientSize,
 			SliceCenter = Rect.new(10, 10, 118, 118),
 		}),
 	})

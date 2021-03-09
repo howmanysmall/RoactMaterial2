@@ -35,7 +35,7 @@ local TEXT_CLASSES = {
 	SnackbarSize = 20,
 }
 
-local TextView = Roact.Component:extend("MaterialTextView")
+local TextView = Roact.PureComponent:extend("MaterialTextView")
 
 function TextView.getTextBounds(text, textClass, boundingRect)
 	boundingRect = boundingRect or Vector2.new(10000, 10000)

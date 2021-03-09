@@ -1,4 +1,5 @@
 local Configuration = require(script.Parent.Parent.Configuration)
+local Dictionary = require(script.Parent.Parent.Utility.Dictionary)
 local Spritesheet = require(script.Spritesheets)
 
 local Roact = Configuration.Roact
@@ -43,6 +44,7 @@ local function ClosestResolution(icon, goalResolution)
 end
 
 local function Icon(props)
+	props = Dictionary.Copy(props)
 	local iconName = props.Icon
 	local icon = Spritesheet[iconName]
 
@@ -58,18 +60,19 @@ local function Icon(props)
 	end
 
 	local variant = icon[chosenResolution]
-
-	return Roact.createElement(RoactAnimate.ImageLabel, {
-		Image = SHEET_ASSETS[variant.Sheet],
+	return Roact.createElement(RoactAnimate.ImageLabel, Dictionary.Join(props, {
 		BackgroundTransparency = 1,
-		ImageRectSize = Vector2.new(variant.Size, variant.Size),
-		ImageRectOffset = Vector2.new(variant.X, variant.Y),
+		Image = SHEET_ASSETS[variant.Sheet],
 		ImageColor3 = props.IconColor3,
+		ImageRectOffset = Vector2.new(variant.X, variant.Y),
+		ImageRectSize = Vector2.new(variant.Size, variant.Size),
 		ImageTransparency = props.IconTransparency,
-		Size = props.Size,
-		Position = props.Position,
-		AnchorPoint = props.AnchorPoint,
-	})
+
+		Icon = Dictionary.None,
+		IconColor3 = Dictionary.None,
+		IconTransparency = Dictionary.None,
+		Resolution = Dictionary.None,
+	}))
 end
 
 return Icon

@@ -4,11 +4,11 @@ local TextView = require(script.Parent.TextView)
 
 local Roact = Configuration.Roact
 
-local RadioGroup = Roact.Component:extend("MaterialRadioGroup")
+local RadioGroup = Roact.PureComponent:extend("MaterialRadioGroup")
 
 function RadioGroup:init(props)
 	self:setState({
-		CurrentId = props.CurrentId,
+		currentId = props.CurrentId,
 	})
 end
 
@@ -16,15 +16,15 @@ function RadioGroup:render()
 	local children = {
 		Layout = Roact.createElement("UIListLayout", {
 			Padding = UDim.new(0, 8),
-			SortOrder = "Name",
+			SortOrder = Enum.SortOrder.Name,
 		}),
 	}
 
 	for id, label in pairs(self.props.Options) do
 		local element = Roact.createElement("TextButton", {
 			BackgroundTransparency = 1,
-			Text = "",
 			Size = UDim2.new(1, 0, 0, 24),
+			Text = "",
 
 			[Roact.Event.Activated] = function()
 				if self.props.CurrentIdChanged then
@@ -32,21 +32,21 @@ function RadioGroup:render()
 				end
 
 				self:setState({
-					CurrentId = id,
+					currentId = id,
 				})
 			end,
 		}, {
 			RadioButton = Roact.createElement(RadioButton, {
-				Checked = id == self.state.CurrentId,
+				Checked = id == self.state.currentId,
 				OnClicked = function()
 					if self.props.CurrentIdChanged then
 						self.props.CurrentIdChanged(id)
 					end
 
 					self:setState({
-						CurrentId = id,
+						currentId = id,
 					})
-				end
+				end,
 			}),
 
 			TextLabel = Roact.createElement(TextView, {
@@ -78,8 +78,8 @@ function RadioGroup:render()
 
 	return Roact.createElement("Frame", {
 		BackgroundTransparency = 1,
-		Size = size,
 		Position = self.props.Position,
+		Size = size,
 	}, children)
 end
 

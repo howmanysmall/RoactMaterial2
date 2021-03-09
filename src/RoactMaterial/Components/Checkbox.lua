@@ -17,15 +17,15 @@ local CENTER_UDIM2 = UDim2.fromScale(0.5, 0.5)
 local CENTER_VECTOR2 = Vector2.new(0.5, 0.5)
 
 local TWEEN_DATA_1 = {
-	Time = 0.15,
 	EasingStyle = "Standard",
 	StepType = "Heartbeat",
+	Time = 0.15,
 }
 
 local TWEEN_DATA_2 = {
-	Time = 0.225,
 	EasingStyle = "Standard",
 	StepType = "Heartbeat",
+	Time = 0.225,
 }
 
 local Checkbox = Roact.PureComponent:extend("MaterialCheckbox")
@@ -71,26 +71,26 @@ function Checkbox:render()
 
 	return Roact.createElement("Frame", {
 		BackgroundTransparency = 1,
-		Size = CHECK_SIZE,
 		Position = self.props.Position,
+		Size = CHECK_SIZE,
 		ZIndex = self.props.ZIndex,
 	}, {
 		InputHandler = Roact.createElement("TextButton", {
 			BackgroundTransparency = 1,
-			ZIndex = 2,
 			Size = FULL_UDIM2,
 			Text = "",
+			ZIndex = 2,
 
 			[Roact.Event.Activated] = function()
 				self.props.OnChecked(not self.props.Checked)
 			end,
 		}, {
 			UncheckedIcon = Roact.createElement(Icon, {
-				Size = FULL_UDIM2,
-				Resolution = 48,
 				Icon = UNCHECKED_ICON,
 				IconColor3 = outlineColor.Color,
 				IconTransparency = outlineColor.Transparency,
+				Resolution = 48,
+				Size = FULL_UDIM2,
 			}),
 
 			CheckedIcon = Roact.createElement(Icon, {
@@ -105,11 +105,11 @@ function Checkbox:render()
 
 		Ripple = Roact.createElement(RoactAnimate.ImageLabel, {
 			AnchorPoint = CENTER_VECTOR2,
-			Position = CENTER_UDIM2,
 			BackgroundTransparency = 1,
 			Image = RIPPLE_IMAGE,
 			ImageColor3 = ThemeAccessor.Get(self, "PrimaryColor"),
 			ImageTransparency = self.state._rippleTransparency,
+			Position = CENTER_UDIM2,
 			Size = self.state._rippleSize,
 			ZIndex = 1,
 		}),

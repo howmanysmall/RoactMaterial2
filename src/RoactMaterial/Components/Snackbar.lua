@@ -20,7 +20,7 @@ Snackbar.defaultProps = {
 }
 
 Snackbar.validateProps = t.interface({
-	Position = t.optional(t.union(t.literal("Center"), t.literal("Left"), t.literal("Right"))),
+	Position = t.optional(t.literal("Center", "Left", "Right")),
 	Text = t.string,
 	Visible = t.optional(t.boolean),
 	VisibleTime = t.optional(t.number),
@@ -53,7 +53,7 @@ function Snackbar:init(props)
 		_anchorPoint = RoactAnimate.Value.new(snackbarPosition.AnchorPoint),
 		_position = RoactAnimate.Value.new(props.Visible and snackbarPosition.EnterPosition or snackbarPosition.ExitPosition),
 		_visible = props.Visible,
-		_width = math.max(TextView.getTextBounds(props.Text, "Snackbar").X, MINIMUM_WIDTH) + PADDING*2,
+		_width = math.max(TextView.getTextBounds(props.Text, "Snackbar").X, MINIMUM_WIDTH) + PADDING * 2,
 	})
 end
 

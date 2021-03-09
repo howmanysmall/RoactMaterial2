@@ -2,6 +2,7 @@ local UserInputService = game:GetService("UserInputService")
 
 local Configuration = require(script.Parent.Parent.Configuration)
 local Ink = require(script.Parent.Ink)
+local Scheduler = require(script.Parent.Parent.Utility.Scheduler)
 local Shadow = require(script.Parent.Shadow)
 local TextView = require(script.Parent.TextView)
 local ThemeAccessor = require(script.Parent.Parent.Utility.ThemeAccessor)
@@ -18,34 +19,33 @@ local RIPPLE_TRIGGER_INPUT_TYPES = {
 }
 
 local COLOR_TWEEN_DATA = {
-	Time = 0.15,
 	EasingStyle = "Standard",
 	StepType = "Heartbeat",
+	Time = 0.15,
 }
 
 local Button = Roact.PureComponent:extend("MaterialButton")
 Button.defaultProps = {
-	Position = UDim2.new(),
 	AnchorPoint = Vector2.new(),
+	Position = UDim2.new(),
 	Size = UDim2.fromOffset(100, 40),
-	ZIndex = 1,
 	Text = "",
+	ZIndex = 1,
 }
 
 Button.validateProps = t.interface({
 	AnchorPoint = t.optional(t.Vector2),
-	Position = t.optional(t.UDim2),
-	Size = t.optional(t.UDim2),
-	ZIndex = t.optional(t.integer),
-	LayoutOrder = t.optional(t.integer),
-	Text = t.optional(t.string),
-
 	BackgroundColor3 = t.optional(t.Color3),
-	PressColor3 = t.optional(t.Color3),
+	Flat = t.optional(t.boolean),
 	HoverColor3 = t.optional(t.Color3),
 	InkColor3 = t.optional(t.Color3),
-	Flat = t.optional(t.boolean),
+	LayoutOrder = t.optional(t.integer),
 	OnClicked = t.optional(t.callback),
+	Position = t.optional(t.UDim2),
+	PressColor3 = t.optional(t.Color3),
+	Size = t.optional(t.UDim2),
+	Text = t.optional(t.string),
+	ZIndex = t.optional(t.integer),
 })
 
 local WHITE_COLOR3 = Color3.new(1, 1, 1)
@@ -53,11 +53,11 @@ local FULL_UDIM2 = UDim2.fromScale(1, 1)
 
 function Button:init(props)
 	self:setState({
+		Elevation = 2,
+		_bgColor = RoactAnimate.Value.new(props.BackgroundColor3 or (props.Flat and ThemeAccessor.Get(self, "FlatButtonColor", WHITE_COLOR3) or ThemeAccessor.Get(self, "ButtonColor", WHITE_COLOR3))),
+		_mouseOver = false,
 		_pressed = false,
 		_pressPoint = UDim2.new(),
-		Elevation = 2,
-		_mouseOver = false,
-		_bgColor = RoactAnimate.Value.new(props.BackgroundColor3 or (props.Flat and ThemeAccessor.Get(self, "FlatButtonColor", WHITE_COLOR3) or ThemeAccessor.Get(self, "ButtonColor", WHITE_COLOR3))),
 	})
 end
 
@@ -76,10 +76,10 @@ function Button:willUpdate(_, nextState)
 end
 
 local function _scheduleHitTest(self, rbx)
-	local timestamp = os.clock()
+	local timestamp = Scheduler.TimeFunction()
 	self._lastHitTest = timestamp
 
-	coroutine.wrap(function()
+	Scheduler.FastSpawn(function()
 		if self._lastHitTest == timestamp then
 			local absolutePosition = rbx.AbsolutePosition
 			local absoluteSize = rbx.AbsoluteSize
@@ -93,7 +93,7 @@ local function _scheduleHitTest(self, rbx)
 				})
 			end
 		end
-	end)()
+	end)
 end
 
 function Button:render()
@@ -105,20 +105,20 @@ function Button:render()
 	end
 
 	return Roact.createElement("Frame", {
-		BackgroundTransparency = 1,
-		Position = self.props.Position,
 		AnchorPoint = self.props.AnchorPoint,
+		BackgroundTransparency = 1,
+		LayoutOrder = self.props.LayoutOrder,
+		Position = self.props.Position,
 		Size = self.props.Size,
 		ZIndex = self.props.ZIndex,
-		LayoutOrder = self.props.LayoutOrder,
 
 		[Roact.Change.AbsolutePosition] = hitTester,
 		[Roact.Change.AbsoluteSize] = hitTester,
 	}, {
 		TextButton = Roact.createElement(RoactAnimate.TextButton, {
 			AutoButtonColor = false,
-			BorderSizePixel = 0,
 			BackgroundColor3 = self.state._bgColor,
+			BorderSizePixel = 0,
 			Size = FULL_UDIM2,
 			Text = "",
 			ZIndex = 2,
@@ -172,17 +172,17 @@ function Button:render()
 		}, self.props[Roact.Children]),
 
 		Children = Roact.createElement("Frame", {
-			Size = FULL_UDIM2,
 			BackgroundTransparency = 1,
+			Size = FULL_UDIM2,
 			ZIndex = 4,
 		}, self.props[Roact.Children]),
 
 		Ink = Roact.createElement(Ink, {
-			ZIndex = 3,
-			Rippling = self.state._pressed,
-			Origin = self.state._pressPoint,
 			InkColor3 = self.props.InkColor3 or (self.props.Flat and ThemeAccessor.Get(self, "PrimaryColor") or WHITE_COLOR3),
 			InkTransparency = 0.5,
+			Origin = self.state._pressPoint,
+			Rippling = self.state._pressed,
+			ZIndex = 3,
 		}),
 
 		Shadow = Roact.createElement(Shadow, {

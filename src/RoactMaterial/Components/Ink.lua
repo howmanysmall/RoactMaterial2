@@ -4,38 +4,38 @@ local RoactAnimate = Configuration.RoactAnimate
 
 local RIPPLE_IMAGE = "rbxassetid://1318074921"
 local RIPPLE_TWEEN_DATA = {
-	Time = 0.2,
 	EasingStyle = "Deceleration",
 	StepType = "Heartbeat",
+	Time = 0.2,
 }
 
 local RIPPLE_MAX_SIZE = UDim2.fromScale(2, 2)
 
 local Ink = Roact.PureComponent:extend("MaterialInk")
 Ink.defaultProps = {
-	Size = UDim2.fromScale(1, 1),
 	AnchorPoint = Vector2.new(0.5, 0.5),
-	Position = UDim2.fromScale(0.5, 0.5),
-	ZIndex = 1,
 	InkColor3 = Color3.new(0.4, 0.4, 0.4),
-	Origin = UDim2.fromScale(0.5, 0.5),
 	InkTransparency = 0.5,
+	Origin = UDim2.fromScale(0.5, 0.5),
+	Position = UDim2.fromScale(0.5, 0.5),
+	Size = UDim2.fromScale(1, 1),
+	ZIndex = 1,
 }
 
 function Ink:init()
 	self:setState({
-		_transparency = RoactAnimate.Value.new(1),
 		_size = RoactAnimate.Value.new(UDim2.new()),
+		_transparency = RoactAnimate.Value.new(1),
 	})
 end
 
 function Ink:render()
 	return Roact.createElement("Frame", {
+		AnchorPoint = self.props.AnchorPoint,
 		BackgroundTransparency = 1,
 		ClipsDescendants = true,
-		Size = self.props.Size,
-		AnchorPoint = self.props.AnchorPoint,
 		Position = self.props.Position,
+		Size = self.props.Size,
 		ZIndex = self.props.ZIndex,
 
 		[Roact.Ref] = function(rbx)
@@ -43,13 +43,13 @@ function Ink:render()
 		end,
 	}, {
 		Rippler = Roact.createElement(RoactAnimate.ImageLabel, {
+			AnchorPoint = Vector2.new(0.5, 0.5),
 			BackgroundTransparency = 1,
 			Image = RIPPLE_IMAGE,
 			ImageColor3 = self.props.InkColor3,
 			ImageTransparency = self.state._transparency,
-			Size = self.state._size,
 			Position = self.props.Origin,
-			AnchorPoint = Vector2.new(0.5, 0.5),
+			Size = self.state._size,
 
 			[Roact.Ref] = function(rbx)
 				self._rbx = rbx
