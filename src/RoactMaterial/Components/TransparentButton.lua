@@ -2,11 +2,11 @@ local UserInputService = game:GetService("UserInputService")
 
 local Configuration = require(script.Parent.Parent.Configuration)
 local Ink = require(script.Parent.Ink)
+local Scheduler = require(script.Parent.Parent.Utility.Scheduler)
 local ThemeAccessor = require(script.Parent.Parent.Utility.ThemeAccessor)
 
 local Roact = Configuration.Roact
 local RoactAnimate = Configuration.RoactAnimate
-local Scheduler = Configuration.Scheduler
 
 local RIPPLE_TRIGGER_INPUT_TYPES = {
 	Enum.UserInputType.MouseButton1,

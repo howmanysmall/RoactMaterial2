@@ -1,8 +1,8 @@
 local Configuration = require(script.Parent.Parent.Configuration)
+local Scheduler = require(script.Parent.Parent.Utility.Scheduler)
 local ThemeAccessor = require(script.Parent.Parent.Utility.ThemeAccessor)
 
 local Roact = Configuration.Roact
-local Scheduler = Configuration.Scheduler
 
 local IndeterminateCircle = Roact.PureComponent:extend("MaterialIndeterminateCircle")
 IndeterminateCircle.defaultProps = {
